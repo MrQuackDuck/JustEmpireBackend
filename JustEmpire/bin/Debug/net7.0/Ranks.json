@@ -1,0 +1,56 @@
+﻿[
+  {
+    "Id": 1,
+    "Name": "Plebs",
+    "Weight": 1,
+    "CreatePostable": true,
+    "EditPostableOwn": true,
+    "DeletePostableOwn": true,
+    
+    "ApprovementToCreatePostable": true,
+    "ApprovementToEditPostableOwn": true,
+    "ApprovementToDeletePostableOwn": true,
+    
+    "EditPostableOthers": false,
+    "DeletePostableOthers": false,
+    
+    "ApprovementToEditPostableOthers": true,
+    "ApprovementToDeletePostableOthers": true
+  },
+  {
+    "Id": 2,
+    "Name": "Senate",
+    "Weight": 2,
+    "CreatePostable": true,
+    "EditPostableOwn": true,
+    "DeletePostableOwn": true,
+
+    "ApprovementToCreatePostable": true,
+    "ApprovementToEditPostableOwn": true,
+    "ApprovementToDeletePostableOwn": true,
+
+    "EditPostableOthers": true,
+    "DeletePostableOthers": true,
+
+    "ApprovementToEditPostableOthers": true,
+    "ApprovementToDeletePostableOthers": true
+  },
+  {
+    "Id": 3,
+    "Name": "Emperor",
+    "Weight": 3,
+    "CreatePostable": true,
+    "EditPostableOwn": true,
+    "DeletePostableOwn": true,
+
+    "ApprovementToCreatePostable": false,
+    "ApprovementToEditPostableOwn": false,
+    "ApprovementToDeletePostableOwn": false,
+
+    "EditPostableOthers": true,
+    "DeletePostableOthers": true,
+
+    "ApprovementToEditPostableOthers": false,
+    "ApprovementToDeletePostableOthers": false
+  }
+]
