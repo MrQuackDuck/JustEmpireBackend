@@ -96,7 +96,8 @@ public class VersionController : Controller
             Status = Status.POSTED,
             Type = PostableType.VERSION,
             PublishDate = DateTime.Now,
-            LastChangeDate = DateTime.Now
+            LastChangeDate = DateTime.Now,
+            ServiceId = versionModel.ServiceId
         };
 
         // Check if the user needs an approvement to add a version to his own service
@@ -119,31 +120,36 @@ public class VersionController : Controller
         
         if (currentUser is null || currentUserRank is null) return Unauthorized();
 
-        var originalVersion = _serviceRepository.GetById(versionModel.Id) ?? null;
+        // The service to which to add the new version
+        var service = _serviceRepository.GetById(versionModel.ServiceId);
+        if (service is null) return NotFound();
+        
+        var originalVersion = _serviceVersionRepository.GetById(versionModel.Id) ?? null;
         if (originalVersion is null) return NotFound();
         if (originalVersion.Status == Status.QUEUE_DELETE || originalVersion.Status == Status.QUEUE_UPDATE) return false;
         
         // Does the user own the version which he wants to edit
-        bool isOwnVersion = currentUser.Id == originalVersion.AuthorId;
+        bool isOwnService = currentUser.Id == service.AuthorId;
         
-        if (isOwnVersion && currentUserRank.EditPostableOwn is false) return Forbid();
-        if (!isOwnVersion && currentUserRank.EditPostableOthers is false) return Forbid();
+        if (isOwnService && currentUserRank.EditPostableOwn is false) return Forbid();
+        if (!isOwnService && currentUserRank.EditPostableOthers is false) return Forbid();
 
         originalVersion.Id = default;
         originalVersion.Title = versionModel.Title;
         originalVersion.Text = versionModel.Text;
+        originalVersion.ServiceId = versionModel.ServiceId;
 
-        if ((isOwnVersion && currentUserRank.ApprovementToEditPostableOwn) ||
-            (!isOwnVersion && currentUserRank.ApprovementToEditPostableOthers))
+        if ((isOwnService && currentUserRank.ApprovementToEditPostableOwn) ||
+            (!isOwnService && currentUserRank.ApprovementToEditPostableOthers))
         {
             originalVersion.OriginalId = versionModel.Id;
             originalVersion.Status = Status.QUEUE_UPDATE;
-            bool success = _serviceRepository.Create(originalVersion) != null;
+            bool success = _serviceVersionRepository.Create(originalVersion) != null;
             return success;
         }
         else
         {
-            bool success = _serviceRepository.Update(originalVersion) != null;
+            bool success = _serviceVersionRepository.Update(originalVersion) != null;
             return success;
         }
     }
