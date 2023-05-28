@@ -9,4 +9,5 @@ public class EditArticleModel
     public string Title { get; set; }
     public string TitleImage { get; set; }
     public string Text { get; set; }
+    public Language Language { get; set; }
 }

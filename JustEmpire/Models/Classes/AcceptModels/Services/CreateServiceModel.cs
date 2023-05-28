@@ -1,4 +1,6 @@
-﻿namespace JustEmpire.Models.Classes.AcceptModels.Services;
+﻿using JustEmpire.Models.Enums;
+
+namespace JustEmpire.Models.Classes.AcceptModels.Services;
 
 public class CreateServiceModel
 {
@@ -8,4 +10,5 @@ public class CreateServiceModel
     public string URL { get; set; }
     public bool IsDownloadable { get; set; }
     public int CategoryId { get; set; }
+    public Language Language { get; set; }
 }

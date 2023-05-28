@@ -15,4 +15,5 @@ public class ServiceCategory : ICategory, IQueueable
     public Status Status { get; set; }
     public DateTime LastChangeDate { get; set; }
     public DateTime PublishDate { get; set; }
+    public Language Language { get; set; }
 }

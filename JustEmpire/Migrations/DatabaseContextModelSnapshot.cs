@@ -26,6 +26,9 @@ namespace JustEmpire.Migrations
                     b.Property<int>("AuthorId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("Language")
+                        .HasColumnType("INTEGER");
+
                     b.Property<DateTime>("LastChangeDate")
                         .HasColumnType("TEXT");
 
@@ -85,6 +88,9 @@ namespace JustEmpire.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<bool>("IsDownloadable")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Language")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("LastChangeDate")

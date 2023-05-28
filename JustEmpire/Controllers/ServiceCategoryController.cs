@@ -78,7 +78,8 @@ public class ServiceCategoryController : Controller
             Status = Status.POSTED,
             Type = PostableType.CATEGORY,
             PublishDate = DateTime.Now,
-            LastChangeDate = DateTime.Now
+            LastChangeDate = DateTime.Now,
+            Language = categoryModel.Language
         };
 
         if (currentUserRank.ApprovementToCreatePostable is true) resultCategory.Status = Status.QUEUE_CREATE;
@@ -109,6 +110,7 @@ public class ServiceCategoryController : Controller
 
         originalCategory.Id = default;
         originalCategory.Title = categoryModel.Title;
+        originalCategory.Language = categoryModel.Language;
 
         if ((isOwnCategory && currentUserRank.ApprovementToEditPostableOwn) ||
             (!isOwnCategory && currentUserRank.ApprovementToEditPostableOthers))

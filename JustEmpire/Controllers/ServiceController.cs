@@ -112,7 +112,9 @@ public class ServiceController : Controller
             CategoryId = serviceModel.CategoryId,
             TitleImage = serviceModel.TitleImage,
             PublishDate = DateTime.Now,
-            LastChangeDate = DateTime.Now
+            LastChangeDate = DateTime.Now,
+            IsDownloadable = serviceModel.IsDownloadable,
+            Language = serviceModel.Language
         };
 
         if (currentUserRank.ApprovementToCreatePostable is true) resultService.Status = Status.QUEUE_CREATE;
@@ -148,6 +150,7 @@ public class ServiceController : Controller
         originalService.URL = serviceModel.URL;
         originalService.IsDownloadable = serviceModel.IsDownloadable;
         originalService.CategoryId = serviceModel.CategoryId;
+        originalService.Language = originalService.Language;
 
         if ((isOwnService && currentUserRank.ApprovementToEditPostableOwn) ||
             (!isOwnService && currentUserRank.ApprovementToEditPostableOthers))

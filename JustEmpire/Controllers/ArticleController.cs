@@ -26,9 +26,9 @@ public class ArticleController : Controller
     [HttpGet]
     [LogAction]
     [CountView]
-    public async Task<ActionResult<List<Article>>> GetAll()
+    public async Task<ActionResult<List<Article>>> GetAll(Language language)
     {
-        return _articleRepository.GetAll().Where(article => article.Status == Status.POSTED).ToList();
+        return _articleRepository.GetAll().Where(article => article.Status == Status.POSTED && article.Language == language).ToList();
     }
 
     [HttpGet]
@@ -42,7 +42,7 @@ public class ArticleController : Controller
     }
     
     /// <summary>
-    /// Endpoint to get all articles for admin panel
+    /// Get all articles for admin panel
     /// </summary>
     [HttpGet]
     [Authorize]
@@ -53,7 +53,7 @@ public class ArticleController : Controller
     }
     
     /// <summary>
-    /// Endpoint to get the article for admin panel even if the article is in the queue
+    /// Get the article for admin panel even if the article is in the queue
     /// </summary>
     [HttpGet]
     [Authorize]
@@ -86,7 +86,8 @@ public class ArticleController : Controller
             Type = PostableType.ARTICLE,
             TitleImage = articleModel.TitleImage,
             PublishDate = DateTime.Now,
-            LastChangeDate = DateTime.Now
+            LastChangeDate = DateTime.Now,
+            Language = articleModel.Language
         };
 
         if (currentUserRank.ApprovementToCreatePostable is true) resultArticle.Status = Status.QUEUE_CREATE;
@@ -119,6 +120,7 @@ public class ArticleController : Controller
         originalArticle.Title = articleModel.Title;
         originalArticle.TitleImage = articleModel.TitleImage;
         originalArticle.Text = articleModel.Text;
+        originalArticle.Language = articleModel.Language;
 
         if ((isOwnArticle && currentUserRank.ApprovementToEditPostableOwn) ||
             (!isOwnArticle && currentUserRank.ApprovementToEditPostableOthers))
