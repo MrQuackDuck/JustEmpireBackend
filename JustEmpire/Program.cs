@@ -13,6 +13,15 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(builder =>
+    {
+        builder.AllowAnyOrigin()
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
 
 var path = builder.Configuration.GetValue<string>("Logging:FilePath").Replace("log.txt", $"{DateTime.Now.ToString("yyyy-MM-dd [hh.mm.ss]")}.txt");
 
@@ -53,6 +62,8 @@ builder.Services.AddCors(options => options.AddPolicy(name: "NgOrigins",
     }));
 
 var app = builder.Build();
+
+app.UseCors();
 
 app.UseAuthentication();
 app.UseAuthorization();
