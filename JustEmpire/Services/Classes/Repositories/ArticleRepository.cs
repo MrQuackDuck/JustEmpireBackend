@@ -1,5 +1,6 @@
 ﻿using JustEmpire.DbContexts;
 using JustEmpire.Models.Classes;
+using JustEmpire.Models.Enums;
 
 namespace JustEmpire.Services;
 
@@ -72,6 +73,16 @@ public class ArticleRepository : IRepository<Article>
     public List<Article> GetAll()
     {
         return _dbContext.Articles.ToList();
+    }
+
+    public List<RecentArticle> GetRecent(Language language, int count)
+    {
+        return (from article in _dbContext.Articles orderby article.PublishDate select new RecentArticle()
+            {
+                Id = article.Id,
+                Title = article.Title,
+                Language = article.Language
+            }).Take(count).ToList();
     }
 
     public Article GetById(int id)
