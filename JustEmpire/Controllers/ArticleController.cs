@@ -30,6 +30,14 @@ public class ArticleController : Controller
     {
         return _articleRepository.GetAll().Where(article => article.Status == Status.POSTED && article.Language == language).ToList();
     }
+    
+    [HttpGet]
+    [LogAction]
+    public async Task<ActionResult<List<RecentArticle>>> GetRecent(Language language, int count)
+    {
+        if (count <= 0 || count > 20) return null;
+        return _articleRepository.GetRecent(language, count);
+    }
 
     [HttpGet]
     [LogAction]
