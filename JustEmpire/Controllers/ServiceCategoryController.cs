@@ -24,16 +24,16 @@ public class ServiceCategoryController : Controller
     
     [HttpGet]
     [LogAction]
-    public async Task<ActionResult<List<ServiceCategory>>> GetAll()
+    public async Task<ActionResult<List<ServiceCategory>>> GetAll(Language language)
     {
-        return _serviceCategoryRepository.GetAll().Where(category => category.Status == Status.POSTED).ToList();
+        return _serviceCategoryRepository.GetAll().Where(category => category.Status == Status.POSTED && category.Language == language).ToList();
     }
 
     [HttpGet]
     [LogAction]
-    public async Task<ActionResult<ServiceCategory>> GetById(int id)
+    public async Task<ActionResult<ServiceCategory>> GetById(int serviceId)
     {
-        var target = _serviceCategoryRepository.GetById(id);
+        var target = _serviceCategoryRepository.GetById(serviceId);
         if (target is null || target.Status != Status.POSTED) return NotFound();
         return target;
     }
@@ -52,9 +52,9 @@ public class ServiceCategoryController : Controller
     [HttpGet]
     [Authorize]
     [LogStaff]
-    public async Task<ActionResult<ServiceCategory>> GetByIdStaff(int id)
+    public async Task<ActionResult<ServiceCategory>> GetByIdStaff(int serviceId)
     {
-        var target = _serviceCategoryRepository.GetById(id) ?? null;
+        var target = _serviceCategoryRepository.GetById(serviceId) ?? null;
         if (target is null) return NotFound();
         return target;
     }
@@ -130,17 +130,17 @@ public class ServiceCategoryController : Controller
     [HttpDelete]
     [Authorize]
     [LogStaff]
-    public async Task<ActionResult<bool>> Delete(int id)
+    public async Task<ActionResult<bool>> Delete(int serviceId)
     {
         // If the category is already in queue to be deleted
-        if (_serviceCategoryRepository.GetByOriginalId(id) is not null) return false;
+        if (_serviceCategoryRepository.GetByOriginalId(serviceId) is not null) return false;
         
         var currentUser = _userAccessor.GetCurrentUser();
         var currentUserRank = _userAccessor.GetCurrentUserRank();
 
         if (currentUser is null || currentUserRank is null) return Unauthorized();
 
-        var targetCategory = _serviceCategoryRepository.GetById(id) ?? null;
+        var targetCategory = _serviceCategoryRepository.GetById(serviceId) ?? null;
         if (targetCategory is null) return NotFound();
 
         if (targetCategory.Status != Status.POSTED) return false;
@@ -182,9 +182,9 @@ public class ServiceCategoryController : Controller
     [HttpPut]
     [Authorize(Roles = "Emperor")]
     [LogStaff]
-    public async Task<ActionResult<bool>> ApproveCreate(int id)
+    public async Task<ActionResult<bool>> ApproveCreate(int serviceId)
     {
-        var targetCategory = _serviceCategoryRepository.GetById(id) ?? null;
+        var targetCategory = _serviceCategoryRepository.GetById(serviceId) ?? null;
         if (targetCategory is null) return NotFound();
 
         if (targetCategory.Status != Status.QUEUE_CREATE) return BadRequest();
@@ -198,9 +198,9 @@ public class ServiceCategoryController : Controller
     [HttpPut]
     [Authorize(Roles = "Emperor")]
     [LogStaff]
-    public async Task<ActionResult<bool>> ApproveEdit(int id)
+    public async Task<ActionResult<bool>> ApproveEdit(int serviceId)
     {
-        var targetService = _serviceCategoryRepository.GetById(id) ?? null;
+        var targetService = _serviceCategoryRepository.GetById(serviceId) ?? null;
         if (targetService is null) return NotFound();
 
         if (targetService.Status != Status.QUEUE_UPDATE) return BadRequest();
@@ -224,9 +224,9 @@ public class ServiceCategoryController : Controller
     [HttpPut]
     [Authorize(Roles = "Emperor")]
     [LogStaff]
-    public async Task<ActionResult<bool>> ApproveDelete(int id)
+    public async Task<ActionResult<bool>> ApproveDelete(int serviceId)
     {
-        var targetCategory = _serviceCategoryRepository.GetById(id) ?? null;
+        var targetCategory = _serviceCategoryRepository.GetById(serviceId) ?? null;
         if (targetCategory is null) return NotFound();
         
         if (targetCategory.Status != Status.QUEUE_DELETE) return BadRequest();

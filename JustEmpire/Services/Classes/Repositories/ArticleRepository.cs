@@ -85,6 +85,27 @@ public class ArticleRepository : IRepository<Article>
             }).Take(count).ToList();
     }
 
+    public List<Article> GetLatest(Language language, int count)
+    {
+        return _dbContext.Articles.OrderByDescending(a => a.PublishDate).Take(count).ToList();
+    }
+
+    public List<Article> GetPage(Language language, int page, int itemsOnPage)
+    {
+        return _dbContext.Articles
+            .Skip((page - 1) * itemsOnPage)
+            .Take(itemsOnPage)
+            .ToList();
+    }
+
+    /// <summary>
+    /// Get total count of articles with provided language
+    /// </summary>
+    public int GetTotalCount(Language language)
+    {
+        return _dbContext.Articles.Where(article => article.Language == language).Count();
+    }
+
     public Article GetById(int id)
     {
         return _dbContext.Articles.FirstOrDefault(article => article.Id == id);

@@ -68,6 +68,6 @@ app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllerRoute("default", "API/{controller}/{action}/{id?}");
+app.MapControllerRoute("default", "API/{controller}/{action}/{serviceId?}");
 
 app.Run();

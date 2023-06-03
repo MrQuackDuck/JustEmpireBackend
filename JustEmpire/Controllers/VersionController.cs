@@ -27,12 +27,12 @@ public class VersionController : Controller
     /// <summary>
     /// Get version by id
     /// </summary>
-    /// <param name="id">Id of version</param>
+    /// <param name="serviceId">Id of version</param>
     [HttpGet]
     [LogAction]
-    public async Task<ActionResult<ServiceVersion>> GetById(int id)
+    public async Task<ActionResult<ServiceVersion>> GetById(int serviceId)
     {
-        var target = _serviceVersionRepository.GetById(id);
+        var target = _serviceVersionRepository.GetById(serviceId);
         if (target is null || target.Status != Status.POSTED) return NotFound();
         return target;
     }
@@ -40,13 +40,22 @@ public class VersionController : Controller
     /// <summary>
     /// Get versions of service
     /// </summary>
-    /// <param name="id">Id of service</param>
+    /// <param name="serviceId">Id of service</param>
     [HttpGet]
     [LogAction]
-    public List<ServiceVersion> GetVersions(int id)
+    public List<ServiceVersion> GetVersions(int serviceId)
     {
-        return _serviceVersionRepository.GetAll().Where(version => version.ServiceId == id 
+        return _serviceVersionRepository.GetAll().Where(version => version.ServiceId == serviceId 
                                                                    && version.Status == Status.POSTED).ToList();
+    }
+
+    [HttpGet]
+    [LogAction]
+    public async Task<ActionResult<ServiceVersion>> GetLatestVersion(int serviceId)
+    {
+        var targetVersion = _serviceVersionRepository.GetLatestVersion(serviceId);
+        if (targetVersion.Status != Status.POSTED) return null;
+        return targetVersion;
     }
     
     [HttpGet]
@@ -63,9 +72,9 @@ public class VersionController : Controller
     [HttpGet]
     [Authorize]
     [LogStaff]
-    public async Task<ActionResult<ServiceVersion>> GetByIdStaff(int id)
+    public async Task<ActionResult<ServiceVersion>> GetByIdStaff(int serviceId)
     {
-        var target = _serviceVersionRepository.GetById(id) ?? null;
+        var target = _serviceVersionRepository.GetById(serviceId) ?? null;
         if (target is null) return NotFound();
         return target;
     }
@@ -157,17 +166,17 @@ public class VersionController : Controller
     [HttpDelete]
     [Authorize]
     [LogStaff]
-    public async Task<ActionResult<bool>> Delete(int id)
+    public async Task<ActionResult<bool>> Delete(int serviceId)
     {
         // If the version is already in queue to be deleted
-        if (_serviceVersionRepository.GetByOriginalId(id) is not null) return false;
+        if (_serviceVersionRepository.GetByOriginalId(serviceId) is not null) return false;
         
         var currentUser = _userAccessor.GetCurrentUser();
         var currentUserRank = _userAccessor.GetCurrentUserRank();
 
         if (currentUser is null || currentUserRank is null) return Unauthorized();
 
-        var targetVersion = _serviceVersionRepository.GetById(id) ?? null;
+        var targetVersion = _serviceVersionRepository.GetById(serviceId) ?? null;
         if (targetVersion is null) return NotFound();
 
         if (targetVersion.Status != Status.POSTED) return false;
@@ -209,9 +218,9 @@ public class VersionController : Controller
     [HttpPut]
     [Authorize(Roles = "Emperor")]
     [LogStaff]
-    public async Task<ActionResult<bool>> ApproveCreate(int id)
+    public async Task<ActionResult<bool>> ApproveCreate(int serviceId)
     {
-        var targetVersion = _serviceVersionRepository.GetById(id) ?? null;
+        var targetVersion = _serviceVersionRepository.GetById(serviceId) ?? null;
         if (targetVersion is null) return NotFound();
 
         if (targetVersion.Status != Status.QUEUE_CREATE) return BadRequest();
@@ -225,9 +234,9 @@ public class VersionController : Controller
     [HttpPut]
     [Authorize(Roles = "Emperor")]
     [LogStaff]
-    public async Task<ActionResult<bool>> ApproveEdit(int id)
+    public async Task<ActionResult<bool>> ApproveEdit(int serviceId)
     {
-        var targetVersion = _serviceVersionRepository.GetById(id) ?? null;
+        var targetVersion = _serviceVersionRepository.GetById(serviceId) ?? null;
         if (targetVersion is null) return NotFound();
 
         if (targetVersion.Status != Status.QUEUE_UPDATE) return BadRequest();
@@ -252,9 +261,9 @@ public class VersionController : Controller
     [HttpPut]
     [Authorize(Roles = "Emperor")]
     [LogStaff]
-    public async Task<ActionResult<bool>> ApproveDelete(int id)
+    public async Task<ActionResult<bool>> ApproveDelete(int serviceId)
     {
-        var targetVersion = _serviceVersionRepository.GetById(id) ?? null;
+        var targetVersion = _serviceVersionRepository.GetById(serviceId) ?? null;
         if (targetVersion is null) return NotFound();
         
         if (targetVersion.Status != Status.QUEUE_DELETE) return BadRequest();

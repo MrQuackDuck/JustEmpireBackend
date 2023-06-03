@@ -31,6 +31,9 @@ public class ArticleController : Controller
         return _articleRepository.GetAll().Where(article => article.Status == Status.POSTED && article.Language == language).ToList();
     }
     
+    /// <summary>
+    /// Returns recent articles with lighter model to improve optimizaiton
+    /// </summary>
     [HttpGet]
     [LogAction]
     public async Task<ActionResult<List<RecentArticle>>> GetRecent(Language language, int count)
@@ -39,12 +42,33 @@ public class ArticleController : Controller
         return _articleRepository.GetRecent(language, count);
     }
 
+    /// <summary>
+    /// Get a page with articles (used to realize pagination)
+    /// </summary>
+    /// <returns></returns>
+    [HttpGet]
+    [LogAction]
+    public async Task<ActionResult<List<Article>>> GetPage(Language language, int pageIndex, int itemsOnPage)
+    {
+        return _articleRepository.GetPage(language, pageIndex, itemsOnPage);
+    }
+
+    /// <summary>
+    /// Get total pages count (used to realize pagination)
+    /// </summary>
+    public async Task<int> GetPagesCount(Language language, int itemsOnPage)
+    {
+        int totalArticlesCount = _articleRepository.GetTotalCount(language);
+        int totalPages = (int)Math.Ceiling((double)totalArticlesCount / (double)itemsOnPage);
+        return totalPages;
+    }
+
     [HttpGet]
     [LogAction]
     [CountView]
-    public async Task<ActionResult<Article>> GetById(int id)
+    public async Task<ActionResult<Article>> GetById(int serviceId)
     {
-        var target = _articleRepository.GetById(id);
+        var target = _articleRepository.GetById(serviceId);
         if (target is null || target.Status != Status.POSTED) return NotFound();
         return target;
     }
@@ -66,9 +90,9 @@ public class ArticleController : Controller
     [HttpGet]
     [Authorize]
     [LogStaff]
-    public async Task<ActionResult<Article>> GetByIdStaff(int id)
+    public async Task<ActionResult<Article>> GetByIdStaff(int serviceId)
     {
-        var target = _articleRepository.GetById(id) ?? null;
+        var target = _articleRepository.GetById(serviceId) ?? null;
         if (target is null) return NotFound();
         return target;
     }
@@ -148,17 +172,17 @@ public class ArticleController : Controller
     [HttpDelete]
     [Authorize]
     [LogStaff]
-    public async Task<ActionResult<bool>> Delete(int id)
+    public async Task<ActionResult<bool>> Delete(int serviceId)
     {
         // If the article is already in queue to be deleted
-        if (_articleRepository.GetByOriginalId(id) is not null) return false;
+        if (_articleRepository.GetByOriginalId(serviceId) is not null) return false;
         
         var currentUser = _userAccessor.GetCurrentUser();
         var currentUserRank = _userAccessor.GetCurrentUserRank();
 
         if (currentUser is null || currentUserRank is null) return Unauthorized();
 
-        var targetArticle = _articleRepository.GetById(id) ?? null;
+        var targetArticle = _articleRepository.GetById(serviceId) ?? null;
         if (targetArticle is null) return NotFound();
 
         if (targetArticle.Status != Status.POSTED) return false;
@@ -199,9 +223,9 @@ public class ArticleController : Controller
     [HttpPut]
     [Authorize(Roles = "Emperor")]
     [LogStaff]
-    public async Task<ActionResult<bool>> ApproveCreate(int id)
+    public async Task<ActionResult<bool>> ApproveCreate(int serviceId)
     {
-        var targetArticle = _articleRepository.GetById(id) ?? null;
+        var targetArticle = _articleRepository.GetById(serviceId) ?? null;
         if (targetArticle is null) return NotFound();
 
         if (targetArticle.Status != Status.QUEUE_CREATE) return BadRequest();
@@ -215,9 +239,9 @@ public class ArticleController : Controller
     [HttpPut]
     [Authorize(Roles = "Emperor")]
     [LogStaff]
-    public async Task<ActionResult<bool>> ApproveEdit(int id)
+    public async Task<ActionResult<bool>> ApproveEdit(int serviceId)
     {
-        var targetArticle = _articleRepository.GetById(id) ?? null;
+        var targetArticle = _articleRepository.GetById(serviceId) ?? null;
         if (targetArticle is null) return NotFound();
 
         if (targetArticle.Status != Status.QUEUE_UPDATE) return BadRequest();
@@ -243,9 +267,9 @@ public class ArticleController : Controller
     [HttpPut]
     [Authorize(Roles = "Emperor")]
     [LogStaff]
-    public async Task<ActionResult<bool>> ApproveDelete(int id)
+    public async Task<ActionResult<bool>> ApproveDelete(int serviceId)
     {
-        var targetArticle = _articleRepository.GetById(id) ?? null;
+        var targetArticle = _articleRepository.GetById(serviceId) ?? null;
         if (targetArticle is null) return NotFound();
         
         if (targetArticle.Status != Status.QUEUE_DELETE) return BadRequest();

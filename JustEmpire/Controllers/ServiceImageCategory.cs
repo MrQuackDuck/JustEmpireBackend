@@ -29,9 +29,9 @@ public class ServiceImageCategory : Controller
     /// </summary>
     [HttpGet]
     [LogAction]
-    public List<ServiceImage> GetImages(int id)
+    public List<ServiceImage> GetImages(int serviceId)
     {
-        return _serviceImageRepository.GetAll().Where(image => image.ServiceId == id 
+        return _serviceImageRepository.GetAll().Where(image => image.ServiceId == serviceId 
                                                                && image.Status == Status.POSTED).ToList();
     }
     
@@ -40,9 +40,9 @@ public class ServiceImageCategory : Controller
     /// </summary>
     [HttpGet]
     [LogAction]
-    public async Task<ActionResult<ServiceImage>> GetById(int id)
+    public async Task<ActionResult<ServiceImage>> GetById(int serviceId)
     {
-        var target = _serviceImageRepository.GetById(id);
+        var target = _serviceImageRepository.GetById(serviceId);
         if (target is null || target.Status != Status.POSTED) return NotFound();
         return target;
     }
@@ -61,9 +61,9 @@ public class ServiceImageCategory : Controller
     [HttpGet]
     [Authorize]
     [LogStaff]
-    public async Task<ActionResult<ServiceImage>> GetByIdStaff(int id)
+    public async Task<ActionResult<ServiceImage>> GetByIdStaff(int serviceId)
     {
-        var target = _serviceImageRepository.GetById(id) ?? null;
+        var target = _serviceImageRepository.GetById(serviceId) ?? null;
         if (target is null) return NotFound();
         return target;
     }
@@ -146,17 +146,17 @@ public class ServiceImageCategory : Controller
     [HttpDelete]
     [Authorize]
     [LogStaff]
-    public async Task<ActionResult<bool>> Delete(int id)
+    public async Task<ActionResult<bool>> Delete(int serviceId)
     {
         // If the image is already in queue to be deleted
-        if (_serviceImageRepository.GetByOriginalId(id) is not null) return false;
+        if (_serviceImageRepository.GetByOriginalId(serviceId) is not null) return false;
         
         var currentUser = _userAccessor.GetCurrentUser();
         var currentUserRank = _userAccessor.GetCurrentUserRank();
 
         if (currentUser is null || currentUserRank is null) return Unauthorized();
 
-        var targetImage = _serviceImageRepository.GetById(id) ?? null;
+        var targetImage = _serviceImageRepository.GetById(serviceId) ?? null;
         if (targetImage is null) return NotFound();
 
         if (targetImage.Status != Status.POSTED) return false;
@@ -198,9 +198,9 @@ public class ServiceImageCategory : Controller
     [HttpPut]
     [Authorize(Roles = "Emperor")]
     [LogStaff]
-    public async Task<ActionResult<bool>> ApproveCreate(int id)
+    public async Task<ActionResult<bool>> ApproveCreate(int serviceId)
     {
-        var targetImage = _serviceImageRepository.GetById(id) ?? null;
+        var targetImage = _serviceImageRepository.GetById(serviceId) ?? null;
         if (targetImage is null) return NotFound();
 
         if (targetImage.Status != Status.QUEUE_CREATE) return BadRequest();
@@ -214,9 +214,9 @@ public class ServiceImageCategory : Controller
     [HttpPut]
     [Authorize(Roles = "Emperor")]
     [LogStaff]
-    public async Task<ActionResult<bool>> ApproveEdit(int id)
+    public async Task<ActionResult<bool>> ApproveEdit(int serviceId)
     {
-        var targetImage = _serviceImageRepository.GetById(id) ?? null;
+        var targetImage = _serviceImageRepository.GetById(serviceId) ?? null;
         if (targetImage is null) return NotFound();
 
         if (targetImage.Status != Status.QUEUE_UPDATE) return BadRequest();
@@ -240,9 +240,9 @@ public class ServiceImageCategory : Controller
     [HttpPut]
     [Authorize(Roles = "Emperor")]
     [LogStaff]
-    public async Task<ActionResult<bool>> ApproveDelete(int id)
+    public async Task<ActionResult<bool>> ApproveDelete(int serviceId)
     {
-        var targetImage = _serviceImageRepository.GetById(id) ?? null;
+        var targetImage = _serviceImageRepository.GetById(serviceId) ?? null;
         if (targetImage is null) return NotFound();
         
         if (targetImage.Status != Status.QUEUE_DELETE) return BadRequest();

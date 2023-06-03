@@ -76,7 +76,12 @@ public class ServiceVersionRepository : IRepository<ServiceVersion>
 
     public ServiceVersion GetById(int id)
     {
-        return _dbContext.ServiceVersions.FirstOrDefault(user => user.Id == id);
+        return _dbContext.ServiceVersions.FirstOrDefault(version => version.Id == id);
+    }
+
+    public ServiceVersion GetLatestVersion(int serviceId)
+    {
+        return _dbContext.ServiceVersions.FirstOrDefault(service => service.ServiceId == serviceId);
     }
     
     public ServiceVersion GetByOriginalId(int id)

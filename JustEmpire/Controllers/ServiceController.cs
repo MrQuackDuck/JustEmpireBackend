@@ -27,15 +27,20 @@ public class ServiceController : Controller
     [HttpGet]
     [LogAction]
     [CountView]
-    public List<Service> GetAll(string categoriesString = "", string searchString = "")
-    {
-        List<Service> allServices = _serviceRepository.GetAll().Where(service => service.Status == Status.POSTED).ToList();
+    public List<Service> GetAll(Language language, string[] categories = null, string searchString = "")
+     {
+        if (categories is null) categories = new []{ "" };
+        
+        List<Service> allServices = _serviceRepository.GetAll().Where(service => 
+            service.Status == Status.POSTED &&
+            service.Language == language)
+            .ToList();
 
         int[] targetCategories = new int[0];
         try
         {
             // Trying to parse categoriesString to int
-            targetCategories = Array.ConvertAll(categoriesString.Split(','), s => int.Parse(s));
+            targetCategories = Array.ConvertAll(categories, s => int.Parse(s));
         } 
         catch { }
 
@@ -61,9 +66,9 @@ public class ServiceController : Controller
     [HttpGet]
     [LogAction]
     [CountView]
-    public async Task<ActionResult<Service>> GetById(int id)
+    public async Task<ActionResult<Service>> GetById(int serviceId)
     {
-        var target = _serviceRepository.GetById(id);
+        var target = _serviceRepository.GetById(serviceId);
         if (target is null || target.Status != Status.POSTED) return NotFound();
         return target;
     }
@@ -82,9 +87,9 @@ public class ServiceController : Controller
     [HttpGet]
     [Authorize]
     [LogStaff]
-    public async Task<ActionResult<Service>> GetByIdStaff(int id)
+    public async Task<ActionResult<Service>> GetByIdStaff(int serviceId)
     {
-        var target = _serviceRepository.GetById(id) ?? null;
+        var target = _serviceRepository.GetById(serviceId) ?? null;
         if (target is null) return NotFound();
         return target;
     }
@@ -170,17 +175,17 @@ public class ServiceController : Controller
     [HttpDelete]
     [Authorize]
     [LogStaff]
-    public async Task<ActionResult<bool>> Delete(int id)
+    public async Task<ActionResult<bool>> Delete(int serviceId)
     {
         // If the service is already in queue to be deleted
-        if (_serviceRepository.GetByOriginalId(id) is not null) return false;
+        if (_serviceRepository.GetByOriginalId(serviceId) is not null) return false;
         
         var currentUser = _userAccessor.GetCurrentUser();
         var currentUserRank = _userAccessor.GetCurrentUserRank();
 
         if (currentUser is null || currentUserRank is null) return Unauthorized();
 
-        var targetService = _serviceRepository.GetById(id) ?? null;
+        var targetService = _serviceRepository.GetById(serviceId) ?? null;
         if (targetService is null) return NotFound();
 
         if (targetService.Status != Status.POSTED) return false;
@@ -222,9 +227,9 @@ public class ServiceController : Controller
     [HttpPut]
     [Authorize(Roles = "Emperor")]
     [LogStaff]
-    public async Task<ActionResult<bool>> ApproveCreate(int id)
+    public async Task<ActionResult<bool>> ApproveCreate(int serviceId)
     {
-        var targetService = _serviceRepository.GetById(id) ?? null;
+        var targetService = _serviceRepository.GetById(serviceId) ?? null;
         if (targetService is null) return NotFound();
 
         if (targetService.Status != Status.QUEUE_CREATE) return BadRequest();
@@ -238,9 +243,9 @@ public class ServiceController : Controller
     [HttpPut]
     [Authorize(Roles = "Emperor")]
     [LogStaff]
-    public async Task<ActionResult<bool>> ApproveEdit(int id)
+    public async Task<ActionResult<bool>> ApproveEdit(int serviceId)
     {
-        var targetService = _serviceRepository.GetById(id) ?? null;
+        var targetService = _serviceRepository.GetById(serviceId) ?? null;
         if (targetService is null) return NotFound();
 
         if (targetService.Status != Status.QUEUE_UPDATE) return BadRequest();
@@ -269,9 +274,9 @@ public class ServiceController : Controller
     [HttpPut]
     [Authorize(Roles = "Emperor")]
     [LogStaff]
-    public async Task<ActionResult<bool>> ApproveDelete(int id)
+    public async Task<ActionResult<bool>> ApproveDelete(int serviceId)
     {
-        var targetService = _serviceRepository.GetById(id) ?? null;
+        var targetService = _serviceRepository.GetById(serviceId) ?? null;
         if (targetService is null) return NotFound();
         
         if (targetService.Status != Status.QUEUE_DELETE) return BadRequest();
