@@ -37,7 +37,7 @@ public class AuthController : Controller
     [LogAction]
     public async Task<ActionResult> Login([FromBody]UserModel userData)
     {
-        var user = _userRepository.GetByUsername(userData.Username) ?? null;
+        var user = _userRepository.GetByUsername(userData?.Username) ?? null;
         // If user is not found
         if (user is null) return Unauthorized();
         // If user password is correct

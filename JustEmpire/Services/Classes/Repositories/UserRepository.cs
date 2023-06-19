@@ -94,6 +94,12 @@ public class UserRepository
 
         return false;
     }
+
+    public bool DoesUserExist(string username)
+    {
+        var target = _dbContext.Users.FirstOrDefault(user => user.Username == username);
+        return !(target == null);
+    }
     
     public string Sha256(string inputString)
     {

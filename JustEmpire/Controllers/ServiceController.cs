@@ -163,7 +163,7 @@ public class ServiceController : Controller
         originalService.URL = serviceModel.URL;
         originalService.IsDownloadable = serviceModel.IsDownloadable;
         originalService.CategoryId = serviceModel.CategoryId;
-        originalService.Language = originalService.Language;
+        originalService.Language = serviceModel.Language;
 
         if ((isOwnService && currentUserRank.ApprovementToEditPostableOwn) ||
             (!isOwnService && currentUserRank.ApprovementToEditPostableOthers))
