@@ -62,6 +62,14 @@ public class ServiceController : Controller
 
         return resultServices;
     }
+    
+    [HttpGet]
+    [LogStaff]
+    [Authorize]
+    public async Task<ActionResult<int>> GetCount()
+    {
+        return _serviceRepository.GetTotalCount();
+    }
 
     [HttpGet]
     [LogAction]

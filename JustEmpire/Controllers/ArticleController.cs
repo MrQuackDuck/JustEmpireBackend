@@ -66,11 +66,20 @@ public class ArticleController : Controller
     [HttpGet]
     [LogAction]
     [CountView]
-    public async Task<ActionResult<Article>> GetById(int serviceId)
+    public async Task<ActionResult<Article>> GetById(int id)
     {
-        var target = _articleRepository.GetById(serviceId);
+        var target = _articleRepository.GetById(id);
         if (target is null || target.Status != Status.POSTED) return NotFound();
         return target;
+    }
+
+    /// Get articles count
+    [HttpGet]
+    [LogStaff]
+    [Authorize]
+    public async Task<ActionResult<int>> GetCount()
+    {
+        return _articleRepository.GetTotalCount();
     }
     
     /// <summary>

@@ -48,13 +48,21 @@ public class VersionController : Controller
         return _serviceVersionRepository.GetAll().Where(version => version.ServiceId == serviceId 
                                                                    && version.Status == Status.POSTED).ToList();
     }
+    
+    [HttpGet]
+    [LogStaff]
+    [Authorize]
+    public async Task<ActionResult<int>> GetCount()
+    {
+        return _serviceVersionRepository.GetTotalCount();
+    }
 
     [HttpGet]
     [LogAction]
     public async Task<ActionResult<ServiceVersion>> GetLatestVersion(int serviceId)
     {
         var targetVersion = _serviceVersionRepository.GetLatestVersion(serviceId);
-        if (targetVersion.Status != Status.POSTED) return null;
+        if (targetVersion?.Status != Status.POSTED) return null;
         return targetVersion;
     }
     

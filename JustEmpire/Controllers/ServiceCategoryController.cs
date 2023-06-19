@@ -26,14 +26,23 @@ public class ServiceCategoryController : Controller
     [LogAction]
     public async Task<ActionResult<List<ServiceCategory>>> GetAll(Language language)
     {
-        return _serviceCategoryRepository.GetAll().Where(category => category.Status == Status.POSTED && category.Language == language).ToList();
+        var data = _serviceCategoryRepository.GetAll();
+        return data.Where(category => category.Status == Status.POSTED && category.Language == language).ToList();
+    }
+    
+    [HttpGet]
+    [LogStaff]
+    [Authorize]
+    public async Task<ActionResult<int>> GetCount()
+    {
+        return _serviceCategoryRepository.GetTotalCount();
     }
 
     [HttpGet]
     [LogAction]
-    public async Task<ActionResult<ServiceCategory>> GetById(int serviceId)
+    public async Task<ActionResult<ServiceCategory>> GetById(int id)
     {
-        var target = _serviceCategoryRepository.GetById(serviceId);
+        var target = _serviceCategoryRepository.GetById(id);
         if (target is null || target.Status != Status.POSTED) return NotFound();
         return target;
     }

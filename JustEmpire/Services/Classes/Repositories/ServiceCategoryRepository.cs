@@ -73,6 +73,14 @@ public class ServiceCategoryRepository : IRepository<ServiceCategory>
     {
         return _dbContext.ServiceCategories.ToList();
     }
+    
+    /// <summary>
+    /// Get total count of service categories
+    /// </summary>
+    public int GetTotalCount()
+    {
+        return _dbContext.Services.Count();
+    }
 
     public ServiceCategory GetById(int id)
     {

@@ -1,4 +1,5 @@
 using System.Text;
+using System.Text.Json.Serialization;
 using JustEmpire.DbContexts;
 using JustEmpire.Models.Classes;
 using JustEmpire.Models.Enums;
@@ -17,18 +18,20 @@ builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(builder =>
     {
-        builder.AllowAnyOrigin()
+        builder.WithOrigins("http://localhost:4200") // Replace with your Angular app's URL
             .AllowAnyHeader()
-            .AllowAnyMethod();
+            .AllowAnyMethod()
+            .AllowCredentials();
     });
 });
 
-var path = builder.Configuration.GetValue<string>("Logging:FilePath").Replace("log.txt", $"{DateTime.Now.ToString("yyyy-MM-dd [hh.mm.ss]")}.txt");
+// Setting up logging
+var logPath = builder.Configuration.GetValue<string>("Logging:FilePath").Replace("log.txt", $"{DateTime.Now.ToString("yyyy-MM-dd [hh.mm.ss]")}.txt");
 
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
     .Enrich.FromLogContext()
-    .WriteTo.File(path)
+    .WriteTo.File(logPath)
     .WriteTo.Console()
     .CreateLogger();
 
@@ -39,6 +42,7 @@ builder.Services.AddScoped<ArticleRepository>();
 builder.Services.AddScoped<ServiceRepository>();
 builder.Services.AddScoped<ServiceCategoryRepository>();
 builder.Services.AddScoped<ServiceVersionRepository>();
+builder.Services.AddScoped<ServiceImageRepository>();
 builder.Services.AddScoped<PageViewRepository>();
 builder.Services.AddScoped<UserRepository>();
 builder.Services.AddScoped<RankRepository>();
@@ -54,7 +58,19 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuer = false,
             ValidateAudience = false
         };
+        
+        options.Events = new JwtBearerEvents
+        {
+            OnMessageReceived = context =>
+            {
+                // Configure the cookie name
+                context.Token = context.Request.Cookies["jwt"];
+
+                return Task.CompletedTask;
+            }
+        };
     });
+
 builder.Services.AddCors(options => options.AddPolicy(name: "NgOrigins",
     policy =>
     {

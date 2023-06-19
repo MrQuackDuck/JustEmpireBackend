@@ -73,6 +73,14 @@ public class ServiceImageRepository : IRepository<ServiceImage>
     {
         return _dbContext.ServiceImages.ToList();
     }
+    
+    /// <summary>
+    /// Get total count of service images
+    /// </summary>
+    public int GetTotalCount()
+    {
+        return _dbContext.ServiceImages.Count();
+    }
 
     public ServiceImage GetById(int id)
     {

@@ -10,13 +10,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace JustEmpire.Controllers;
 
-public class ServiceImageCategory : Controller
+public class ServiceImageController : Controller
 {
     private ServiceRepository _serviceRepository;
     private ServiceImageRepository _serviceImageRepository;
     private UserAccessor _userAccessor;
 
-    public ServiceImageCategory(ServiceImageRepository serviceImageRepository, ServiceRepository serviceRepository,
+    public ServiceImageController(ServiceImageRepository serviceImageRepository, ServiceRepository serviceRepository,
         UserAccessor userAccessor)
     {
         _serviceRepository = serviceRepository;
@@ -33,6 +33,14 @@ public class ServiceImageCategory : Controller
     {
         return _serviceImageRepository.GetAll().Where(image => image.ServiceId == serviceId 
                                                                && image.Status == Status.POSTED).ToList();
+    }
+    
+    [HttpGet]
+    [LogStaff]
+    [Authorize]
+    public async Task<ActionResult<int>> GetCount()
+    {
+        return _serviceImageRepository.GetTotalCount();
     }
     
     /// <summary>

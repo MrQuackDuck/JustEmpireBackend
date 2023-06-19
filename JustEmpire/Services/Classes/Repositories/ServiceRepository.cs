@@ -73,6 +73,14 @@ public class ServiceRepository : IRepository<Service>
     {
         return _dbContext.Services.ToList();
     }
+    
+    /// <summary>
+    /// Get total count of services
+    /// </summary>
+    public int GetTotalCount()
+    {
+        return _dbContext.Services.Count();
+    }
 
     public Service GetById(int id)
     {

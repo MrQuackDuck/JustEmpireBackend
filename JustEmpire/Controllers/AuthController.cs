@@ -34,7 +34,8 @@ public class AuthController : Controller
     /// <param name="userData">User model</param>
     /// <returns>JWT Token</returns>
     [HttpPost]
-    public async Task<ActionResult<string>> Login(UserModel userData)
+    [LogAction]
+    public async Task<ActionResult> Login([FromBody]UserModel userData)
     {
         var user = _userRepository.GetByUsername(userData.Username) ?? null;
         // If user is not found
@@ -62,6 +63,25 @@ public class AuthController : Controller
             signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256));
         
         Log.Information($"IP: {HttpContext.Connection.RemoteIpAddress}; Logged into {user.Username}");
-        return new JwtSecurityTokenHandler().WriteToken(jwt);
+        var token = new JwtSecurityTokenHandler().WriteToken(jwt);
+        Response.Cookies.Append("jwt", token, new CookieOptions
+        {
+            HttpOnly = true,
+            SameSite = SameSiteMode.None,
+            Secure = true
+        });
+        return Ok(new { token });
+    }
+    
+    [HttpGet]
+    [Authorize]
+    [LogAction]
+    public async Task<ActionResult> User()
+    {
+        string username = HttpContext.User.Claims.FirstOrDefault(claim => claim.Type == "Name").Value;
+        var rankId = int.Parse(HttpContext.User.Claims.FirstOrDefault(claim => claim.Type == "RankId").Value);
+        string rank = _rankRepository.GetById(rankId).Name;
+
+        return Ok(new { username, rank });
     }
 }

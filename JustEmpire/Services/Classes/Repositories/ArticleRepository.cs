@@ -99,6 +99,14 @@ public class ArticleRepository : IRepository<Article>
     }
 
     /// <summary>
+    /// Get total count of articles
+    /// </summary>
+    public int GetTotalCount()
+    {
+        return _dbContext.Articles.Count();
+    }
+
+    /// <summary>
     /// Get total count of articles with provided language
     /// </summary>
     public int GetTotalCount(Language language)

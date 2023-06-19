@@ -1,4 +1,5 @@
-﻿using JustEmpire.Services;
+﻿using JustEmpire.Attributes;
+using JustEmpire.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -20,6 +21,7 @@ public class AdminController : Controller
     /// <returns>View count</returns>
     [HttpGet]
     [Authorize]
+    [LogAction]
     public int GetViews(int hours = 0, int minutes = 0, int seconds = 0)
     {
         return _pageViewRepository.GetViews(hours, minutes, seconds);

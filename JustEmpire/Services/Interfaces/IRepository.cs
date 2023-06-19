@@ -8,6 +8,7 @@ public interface IRepository<T> where T : IQueueable
     public bool Update(T article);
     public bool Delete(T article);
     public bool Delete(int id);
+    public int GetTotalCount();
     public List<T> GetAll();
     public T GetById(int id);
     public T GetByOriginalId(int id);

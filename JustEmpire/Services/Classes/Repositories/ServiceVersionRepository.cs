@@ -73,6 +73,14 @@ public class ServiceVersionRepository : IRepository<ServiceVersion>
     {
         return _dbContext.ServiceVersions.ToList();
     }
+    
+    /// <summary>
+    /// Get total count of service versions
+    /// </summary>
+    public int GetTotalCount()
+    {
+        return _dbContext.ServiceVersions.Count();
+    }
 
     public ServiceVersion GetById(int id)
     {
