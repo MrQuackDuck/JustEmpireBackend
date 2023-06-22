@@ -10,13 +10,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace JustEmpire.Controllers;
 
-public class VersionController : Controller
+public class ServiceVersionController : Controller
 {
     private ServiceRepository _serviceRepository;
     private ServiceVersionRepository _serviceVersionRepository;
     private UserAccessor _userAccessor;
 
-    public VersionController(ServiceVersionRepository serviceVersionRepository, ServiceRepository serviceRepository,
+    public ServiceVersionController(ServiceVersionRepository serviceVersionRepository, ServiceRepository serviceRepository,
         UserAccessor userAccessor)
     {
         _serviceRepository = serviceRepository;
@@ -36,7 +36,7 @@ public class VersionController : Controller
         if (target is null || target.Status != Status.POSTED) return NotFound();
         return target;
     }
-    
+
     /// <summary>
     /// Get versions of service
     /// </summary>

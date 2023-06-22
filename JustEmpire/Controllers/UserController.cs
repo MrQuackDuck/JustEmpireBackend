@@ -18,6 +18,22 @@ public class UserController : Controller
         _rankRepository = rankRepository;
     }
 
+    [HttpGet]
+    [Authorize]
+    [LogStaff]
+    public async Task<ActionResult<string>> GetNameById(int userId)
+    {
+        return _userRepository.GetById(userId).Username;
+    }
+    
+    [HttpGet]
+    [Authorize(Roles = "Emperor")]
+    [LogStaff]
+    public async Task<ActionResult<int>> GetCount()
+    {
+        return _userRepository.GetTotalCount();
+    }
+
     [HttpPost]
     [Authorize(Roles = "Emperor")]
     [LogStaff]

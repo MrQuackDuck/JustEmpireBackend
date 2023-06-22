@@ -76,6 +76,11 @@ public class UserRepository
         return _dbContext.Users.ToList();
     }
 
+    public int GetTotalCount()
+    {
+        return _dbContext.Users.Count();
+    }
+
     public User GetById(int id)
     {
         return _dbContext.Users.FirstOrDefault(user => user.Id == id) ?? null;
