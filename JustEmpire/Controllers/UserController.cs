@@ -23,7 +23,7 @@ public class UserController : Controller
     [LogStaff]
     public async Task<ActionResult<string>> GetNameById(int userId)
     {
-        return _userRepository.GetById(userId).Username;
+        return Ok(new { _userRepository.GetById(userId).Username });
     }
     
     [HttpGet]
