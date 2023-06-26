@@ -93,6 +93,8 @@ public class ArticleRepository : IRepository<Article>
     public List<Article> GetPage(Language language, int page, int itemsOnPage)
     {
         return _dbContext.Articles
+            .Where(article => article.Language == language)
+            .OrderByDescending(a => a.PublishDate)
             .Skip((page - 1) * itemsOnPage)
             .Take(itemsOnPage)
             .ToList();

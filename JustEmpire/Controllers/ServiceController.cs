@@ -34,6 +34,7 @@ public class ServiceController : Controller
         List<Service> allServices = _serviceRepository.GetAll().Where(service => 
             service.Status == Status.POSTED &&
             service.Language == language)
+            .OrderByDescending(service => service.PublishDate)
             .ToList();
 
         int[] targetCategories = new int[0];
