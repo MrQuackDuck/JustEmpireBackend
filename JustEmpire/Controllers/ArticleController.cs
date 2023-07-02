@@ -149,7 +149,7 @@ public class ArticleController : Controller
 
         var originalArticle = _articleRepository.GetById(articleModel.Id) ?? null;
         if (originalArticle is null) return NotFound();
-        if (originalArticle.Status == Status.QUEUE_DELETE || originalArticle.Status == Status.QUEUE_UPDATE) return false;
+        if (originalArticle.Status == Status.QUEUE_DELETE || originalArticle.Status == Status.QUEUE_UPDATE) return Forbid();
         
         // Does the user own the article
         bool isOwnArticle = currentUser.Id == originalArticle.AuthorId;
@@ -157,7 +157,6 @@ public class ArticleController : Controller
         if (isOwnArticle && currentUserRank.EditPostableOwn is false) return Forbid();
         if (!isOwnArticle && currentUserRank.EditPostableOthers is false) return Forbid();
 
-        originalArticle.Id = default;
         originalArticle.Title = articleModel.Title;
         originalArticle.TitleImage = articleModel.TitleImage;
         originalArticle.Text = articleModel.Text;
@@ -166,6 +165,7 @@ public class ArticleController : Controller
         if ((isOwnArticle && currentUserRank.ApprovementToEditPostableOwn) ||
             (!isOwnArticle && currentUserRank.ApprovementToEditPostableOthers))
         {
+            originalArticle.Id = default;
             originalArticle.OriginalId = articleModel.Id;
             originalArticle.Status = Status.QUEUE_UPDATE;
             bool success = _articleRepository.Create(originalArticle) != null;
@@ -178,23 +178,23 @@ public class ArticleController : Controller
         }
     }
     
-    [HttpDelete]
+    [HttpGet]
     [Authorize]
     [LogStaff]
-    public async Task<ActionResult<bool>> Delete(int articleId)
+    public async Task<ActionResult<bool>> Delete(int id)
     {
         // If the article is already in queue to be deleted
-        if (_articleRepository.GetByOriginalId(articleId) is not null) return false;
+        if (_articleRepository.GetByOriginalId(id) is not null) return Forbid();
         
         var currentUser = _userAccessor.GetCurrentUser();
         var currentUserRank = _userAccessor.GetCurrentUserRank();
 
         if (currentUser is null || currentUserRank is null) return Unauthorized();
 
-        var targetArticle = _articleRepository.GetById(articleId) ?? null;
+        var targetArticle = _articleRepository.GetById(id) ?? null;
         if (targetArticle is null) return NotFound();
 
-        if (targetArticle.Status != Status.POSTED) return false;
+        if (targetArticle.Status != Status.POSTED) return Forbid();
         
         // Does the user own the article
         bool isOwnArticle = currentUser.Id == targetArticle.AuthorId;

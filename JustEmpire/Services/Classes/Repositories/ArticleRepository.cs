@@ -72,12 +72,14 @@ public class ArticleRepository : IRepository<Article>
 
     public List<Article> GetAll()
     {
-        return _dbContext.Articles.ToList();
+        return _dbContext.Articles
+            .OrderByDescending(article => article.Id)
+            .ToList();
     }
 
     public List<RecentArticle> GetRecent(Language language, int count)
     {
-        return (from article in _dbContext.Articles orderby article.PublishDate select new RecentArticle()
+        return (from article in _dbContext.Articles orderby article.PublishDate descending select new RecentArticle()
             {
                 Id = article.Id,
                 Title = article.Title,
@@ -93,7 +95,7 @@ public class ArticleRepository : IRepository<Article>
     public List<Article> GetPage(Language language, int page, int itemsOnPage)
     {
         return _dbContext.Articles
-            .Where(article => article.Language == language)
+            .Where(article => article.Language == language && article.Status == Status.POSTED)
             .OrderByDescending(a => a.PublishDate)
             .Skip((page - 1) * itemsOnPage)
             .Take(itemsOnPage)

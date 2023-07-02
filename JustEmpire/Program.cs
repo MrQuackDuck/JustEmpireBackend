@@ -81,6 +81,8 @@ var app = builder.Build();
 
 app.UseCors();
 
+app.UseStaticFiles();
+
 app.UseAuthentication();
 app.UseAuthorization();
 

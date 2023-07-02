@@ -72,3 +72,4 @@ C:\Users\mrqua\repos\source\JustEmpire\JustEmpire\bin\Debug\net7.0\Ranks.json
 C:\Users\mrqua\repos\source\JustEmpire\JustEmpire\bin\Debug\net7.0\Serilog.dll
 C:\Users\mrqua\repos\source\JustEmpire\JustEmpire\bin\Debug\net7.0\Serilog.Sinks.File.dll
 C:\Users\mrqua\repos\source\JustEmpire\JustEmpire\bin\Debug\net7.0\Serilog.Sinks.Console.dll
+C:\Users\mrqua\repos\source\JustEmpire\JustEmpire\bin\Debug\net7.0\JustEmpire.staticwebassets.runtime.json

@@ -5,6 +5,7 @@ using JustEmpire.Models.Classes;
 using JustEmpire.Models.Classes.AcceptModels;
 using JustEmpire.Services;
 using JustEmpire.Services.Classes;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -72,16 +73,37 @@ public class AuthController : Controller
         });
         return Ok(new { token });
     }
-    
+
+    [HttpGet]
+    [Authorize]
+    [LogAction]
+    public async Task<IActionResult> Logout()
+    {
+        Response.Cookies.Delete("jwt");
+        return Ok();
+    }
+
     [HttpGet]
     [Authorize]
     [LogAction]
     public async Task<ActionResult> User()
     {
+        string id = HttpContext.User.Claims.FirstOrDefault(claim => claim.Type == "Id").Value;
         string username = HttpContext.User.Claims.FirstOrDefault(claim => claim.Type == "Name").Value;
         var rankId = int.Parse(HttpContext.User.Claims.FirstOrDefault(claim => claim.Type == "RankId").Value);
         string rank = _rankRepository.GetById(rankId).Name;
 
-        return Ok(new { username, rank });
+        return Ok(new { id, username, rank });
+    }
+
+    [HttpGet]
+    [Authorize]
+    [LogAction]
+    public async Task<ActionResult<Rank>> CurrentRank()
+    {
+        var rankId = int.Parse(HttpContext.User.Claims.FirstOrDefault(claim => claim.Type == "RankId").Value);
+        Rank rank = _rankRepository.GetById(rankId);
+
+        return Ok(rank);
     }
 }
