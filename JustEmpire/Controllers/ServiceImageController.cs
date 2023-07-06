@@ -79,7 +79,7 @@ public class ServiceImageController : Controller
     [HttpPost]
     [Authorize]
     [LogStaff]
-    public async Task<ActionResult<bool>> Create(CreateImageModel imageModel)
+    public async Task<ActionResult<Service>> Create([FromBody]CreateImageModel imageModel)
     {
         var currentUser = _userAccessor.GetCurrentUser() ?? null;
         var currentUserRank = _userAccessor.GetCurrentUserRank() ?? null;
@@ -108,8 +108,7 @@ public class ServiceImageController : Controller
         // Check if the user needs an approvement to add an image to other's service
         if (currentUserRank.ApprovementToEditPostableOthers is true && !isOwnService) resultImage.Status = Status.QUEUE_CREATE;
 
-        bool success = _serviceImageRepository.Create(resultImage) != null;
-        return success;
+        return Ok(_serviceImageRepository.Create(resultImage));
     }
     
     [HttpPut]

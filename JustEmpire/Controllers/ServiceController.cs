@@ -106,14 +106,14 @@ public class ServiceController : Controller
     [HttpPost]
     [Authorize]
     [LogStaff]
-    public async Task<ActionResult<bool>> Create(CreateServiceModel serviceModel)
+    public async Task<ActionResult<Service>> Create([FromBody]CreateServiceModel serviceModel)
     {
         var currentUser = _userAccessor.GetCurrentUser() ?? null;
         var currentUserRank = _userAccessor.GetCurrentUserRank() ?? null;
 
         if (currentUser is null || currentUserRank is null) return Unauthorized();
 
-        if (currentUserRank.CreatePostable == false) return false;
+        if (currentUserRank.CreatePostable == false) return Forbid();
 
         var resultService = new Service()
         {
@@ -133,8 +133,8 @@ public class ServiceController : Controller
 
         if (currentUserRank.ApprovementToCreatePostable is true) resultService.Status = Status.QUEUE_CREATE;
 
-        bool success = _serviceRepository.Create(resultService) != null;
-        return success;
+        var result = _serviceRepository.Create(resultService);
+        return Ok(result);
     }
     
     [HttpPut]

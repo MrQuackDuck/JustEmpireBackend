@@ -12,17 +12,17 @@ public class ServiceImageRepository : IRepository<ServiceImage>
         _dbContext = dbContext;
     }
     
-    public bool Create(ServiceImage article)
+    public ServiceImage Create(ServiceImage article)
     {
         try
         {
-            bool success = _dbContext.ServiceImages.Add(article) is not null;
+            var result = _dbContext.ServiceImages.Add(article);
             _dbContext.SaveChanges();
-            return success;
+            return result.Entity;
         }
         catch
         {
-            return false;
+            return null;
         }
     }
 

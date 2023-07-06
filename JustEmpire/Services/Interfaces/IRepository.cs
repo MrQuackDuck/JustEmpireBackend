@@ -4,7 +4,7 @@ namespace JustEmpire.Services;
 
 public interface IRepository<T> where T : IQueueable
 {
-    public bool Create(T article);
+    public T Create(T article);
     public bool Update(T article);
     public bool Delete(T article);
     public bool Delete(int id);

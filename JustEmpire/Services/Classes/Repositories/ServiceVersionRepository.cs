@@ -12,17 +12,17 @@ public class ServiceVersionRepository : IRepository<ServiceVersion>
         _dbContext = dbContext;
     }
 
-    public bool Create(ServiceVersion article)
+    public ServiceVersion Create(ServiceVersion article)
     {
         try
         {
-            bool success = _dbContext.ServiceVersions.Add(article) is not null;
+            var result = _dbContext.ServiceVersions.Add(article);
             _dbContext.SaveChanges();
-            return success;
+            return result.Entity;
         }
         catch
         {
-            return false;
+            return null;
         }
     }
 

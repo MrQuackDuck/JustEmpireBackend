@@ -1,5 +1,7 @@
-﻿using JustEmpire.Models.Classes;
+﻿using System.Text.Json;
+using JustEmpire.Models.Classes;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace JustEmpire.DbContexts;
 

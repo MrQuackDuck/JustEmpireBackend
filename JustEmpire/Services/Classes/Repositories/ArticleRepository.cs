@@ -13,17 +13,17 @@ public class ArticleRepository : IRepository<Article>
         _dbContext = dbContext;
     }
 
-    public bool Create(Article article)
+    public Article Create(Article article)
     {
         try
         {
-            bool success = _dbContext.Articles.Add(article) is not null;
+            var result = _dbContext.Articles.Add(article);
             _dbContext.SaveChanges();
-            return success;
+            return result.Entity;
         }
         catch
         {
-            return false;
+            return null;
         }
     }
 

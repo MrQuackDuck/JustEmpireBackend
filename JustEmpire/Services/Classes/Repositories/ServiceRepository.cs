@@ -12,17 +12,17 @@ public class ServiceRepository : IRepository<Service>
         _dbContext = dbContext;
     }
     
-    public bool Create(Service article)
+    public Service Create(Service article)
     {
         try
         {
-            bool success = _dbContext.Services.Add(article) is not null;
+            var result = _dbContext.Services.Add(article);
             _dbContext.SaveChanges();
-            return success;
+            return result.Entity;
         }
         catch
         {
-            return false;
+            return null;
         }
     }
 

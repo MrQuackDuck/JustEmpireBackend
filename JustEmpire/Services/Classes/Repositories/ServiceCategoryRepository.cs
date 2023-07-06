@@ -12,17 +12,17 @@ public class ServiceCategoryRepository : IRepository<ServiceCategory>
         _dbContext = dbContext;
     }
 
-    public bool Create(ServiceCategory category)
+    public ServiceCategory Create(ServiceCategory category)
     {
         try
         {
-            bool success = _dbContext.ServiceCategories.Add(category) is not null;
+            var result = _dbContext.ServiceCategories.Add(category);
             _dbContext.SaveChanges();
-            return success;
+            return result.Entity;
         }
         catch
         {
-            return false;
+            return null;
         }
     }
 
