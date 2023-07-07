@@ -140,7 +140,7 @@ public class ServiceController : Controller
     [HttpPut]
     [Authorize]
     [LogStaff]
-    public async Task<ActionResult<bool>> Edit(EditServiceModel serviceModel)
+    public async Task<ActionResult<bool>> Edit([FromBody]EditServiceModel serviceModel)
     {
         var currentUser = _userAccessor.GetCurrentUser();
         var currentUserRank = _userAccessor.GetCurrentUserRank();
@@ -157,7 +157,7 @@ public class ServiceController : Controller
         if (isOwnService && currentUserRank.EditPostableOwn is false) return Forbid();
         if (!isOwnService && currentUserRank.EditPostableOthers is false) return Forbid();
 
-        originalService.Id = default;
+        originalService.Id = serviceModel.Id;
         originalService.Title = serviceModel.Title;
         originalService.TitleImage = serviceModel.TitleImage;
         originalService.Text = serviceModel.Text;
@@ -169,6 +169,7 @@ public class ServiceController : Controller
         if ((isOwnService && currentUserRank.ApprovementToEditPostableOwn) ||
             (!isOwnService && currentUserRank.ApprovementToEditPostableOthers))
         {
+            originalService.Id = default;
             originalService.OriginalId = serviceModel.Id;
             originalService.Status = Status.QUEUE_UPDATE;
             bool success = _serviceRepository.Create(originalService) != null;

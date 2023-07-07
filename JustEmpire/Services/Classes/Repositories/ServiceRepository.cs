@@ -72,7 +72,7 @@ public class ServiceRepository : IRepository<Service>
     public List<Service> GetAll()
     {
         return _dbContext.Services
-            .OrderByDescending(s => s.PublishDate)
+            .OrderByDescending(s => s.Id)
             .ToList();
     }
     
