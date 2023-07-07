@@ -29,8 +29,10 @@ public class ServiceImageController : Controller
     /// </summary>
     [HttpGet]
     [LogAction]
-    public List<ServiceImage> GetImages(int serviceId)
+    public ActionResult<List<ServiceImage>> GetImages(int serviceId)
     {
+        var targetService = _serviceRepository.GetById(serviceId);
+        if (targetService?.Status != Status.POSTED) return NotFound();
         return _serviceImageRepository.GetAll().Where(image => image.ServiceId == serviceId 
                                                                && image.Status == Status.POSTED).ToList();
     }
@@ -64,7 +66,19 @@ public class ServiceImageController : Controller
     }
     
     /// <summary>
-    /// Endpoint to get the version for admin panel even if the version is in the queue
+    /// Get images of service even if the service is not published yet
+    /// </summary>
+    [HttpGet]
+    [LogAction]
+    [Authorize]
+    public ActionResult<List<ServiceImage>> GetImagesStaff(int serviceId)
+    {
+        return _serviceImageRepository.GetAll().Where(image => image.ServiceId == serviceId 
+                                                               && image.Status == Status.POSTED).ToList();
+    }
+    
+    /// <summary>
+    /// Endpoint to get the image for admin panel even if the version is in the queue
     /// </summary>
     [HttpGet]
     [Authorize]
@@ -102,9 +116,6 @@ public class ServiceImageController : Controller
             ServiceId = imageModel.ServiceId
         };
 
-        // Check if the user needs an approvement to add an image to his own service
-        if (currentUserRank.ApprovementToEditPostableOwn is true && isOwnService) resultImage.Status = Status.QUEUE_CREATE;
-        
         // Check if the user needs an approvement to add an image to other's service
         if (currentUserRank.ApprovementToEditPostableOthers is true && !isOwnService) resultImage.Status = Status.QUEUE_CREATE;
 

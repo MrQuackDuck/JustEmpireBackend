@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "xsk5mLu1aC4fZEfNmmA+/wiGtfkQkClm2PBqXPXDjZw=",
+  "Hash": "T8ZJU+iCaykEcqFmt4JmE8p5b5atbx0jw4TWdF/Zqc4=",
   "Source": "JustEmpire",
   "BasePath": "_content/JustEmpire",
   "Mode": "Default",
@@ -17,6 +17,23 @@
   ],
   "Assets": [
     {
+      "Identity": "/home/mrquackduck/RiderProjects/JustEmpire/JustEmpire/wwwroot/uploads/1035ae37-2dea-4a38-9e1a-7269a067fad7.jpg",
+      "SourceId": "JustEmpire",
+      "SourceType": "Discovered",
+      "ContentRoot": "/home/mrquackduck/RiderProjects/JustEmpire/JustEmpire/wwwroot/",
+      "BasePath": "_content/JustEmpire",
+      "RelativePath": "uploads/1035ae37-2dea-4a38-9e1a-7269a067fad7.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/uploads/1035ae37-2dea-4a38-9e1a-7269a067fad7.jpg"
+    },
+    {
       "Identity": "/home/mrquackduck/RiderProjects/JustEmpire/JustEmpire/wwwroot/uploads/126a860e-a369-40c5-b8d2-e097005dc467.jpg",
       "SourceId": "JustEmpire",
       "SourceType": "Discovered",
@@ -32,6 +49,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/uploads/126a860e-a369-40c5-b8d2-e097005dc467.jpg"
+    },
+    {
+      "Identity": "/home/mrquackduck/RiderProjects/JustEmpire/JustEmpire/wwwroot/uploads/aa71bc91-ba12-4b4a-975e-c68a6e502545.jpg",
+      "SourceId": "JustEmpire",
+      "SourceType": "Discovered",
+      "ContentRoot": "/home/mrquackduck/RiderProjects/JustEmpire/JustEmpire/wwwroot/",
+      "BasePath": "_content/JustEmpire",
+      "RelativePath": "uploads/aa71bc91-ba12-4b4a-975e-c68a6e502545.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/uploads/aa71bc91-ba12-4b4a-975e-c68a6e502545.jpg"
     },
     {
       "Identity": "/home/mrquackduck/RiderProjects/JustEmpire/JustEmpire/wwwroot/uploads/fc4615da-0424-4d56-ba8a-933df7600f35.jpg",

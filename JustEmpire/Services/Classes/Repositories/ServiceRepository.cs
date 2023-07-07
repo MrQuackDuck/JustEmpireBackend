@@ -71,7 +71,9 @@ public class ServiceRepository : IRepository<Service>
 
     public List<Service> GetAll()
     {
-        return _dbContext.Services.ToList();
+        return _dbContext.Services
+            .OrderByDescending(s => s.PublishDate)
+            .ToList();
     }
     
     /// <summary>
