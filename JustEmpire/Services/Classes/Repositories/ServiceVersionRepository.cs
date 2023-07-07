@@ -12,11 +12,11 @@ public class ServiceVersionRepository : IRepository<ServiceVersion>
         _dbContext = dbContext;
     }
 
-    public ServiceVersion Create(ServiceVersion article)
+    public ServiceVersion Create(ServiceVersion serviceVersion)
     {
         try
         {
-            var result = _dbContext.ServiceVersions.Add(article);
+            var result = _dbContext.ServiceVersions.Add(serviceVersion);
             _dbContext.SaveChanges();
             return result.Entity;
         }
@@ -26,25 +26,25 @@ public class ServiceVersionRepository : IRepository<ServiceVersion>
         }
     }
 
-    public bool Update(ServiceVersion article)
+    public ServiceVersion Update(ServiceVersion serviceVersion)
     {
         try
         {
-            bool success = _dbContext.ServiceVersions.Update(article) is not null;
+            var result = _dbContext.ServiceVersions.Update(serviceVersion);
             _dbContext.SaveChanges();
-            return success;
+            return result.Entity;
         }
         catch
         {
-            return false;
+            return null;
         }
     }
 
-    public bool Delete(ServiceVersion article)
+    public bool Delete(ServiceVersion serviceVersion)
     {
         try
         {
-            bool success = _dbContext.ServiceVersions.Remove(article) is not null;
+            bool success = _dbContext.ServiceVersions.Remove(serviceVersion) is not null;
             _dbContext.SaveChanges();
             return success;
         }

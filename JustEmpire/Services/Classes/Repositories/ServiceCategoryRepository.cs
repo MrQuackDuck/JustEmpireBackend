@@ -26,17 +26,17 @@ public class ServiceCategoryRepository : IRepository<ServiceCategory>
         }
     }
 
-    public bool Update(ServiceCategory category)
+    public ServiceCategory Update(ServiceCategory category)
     {
         try
         {
-            bool success = _dbContext.ServiceCategories.Update(category) is not null;
+            var result = _dbContext.ServiceCategories.Update(category);
             _dbContext.SaveChanges();
-            return success;
+            return result.Entity;
         }
         catch
         {
-            return false;
+            return null;
         }
     }
 

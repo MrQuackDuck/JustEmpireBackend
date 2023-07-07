@@ -27,17 +27,17 @@ public class ArticleRepository : IRepository<Article>
         }
     }
 
-    public bool Update(Article article)
+    public Article Update(Article article)
     {
         try
         {
-            bool success = _dbContext.Articles.Update(article) is not null;
+            var result = _dbContext.Articles.Update(article);
             _dbContext.SaveChanges();
-            return success;
+            return result.Entity;
         }
         catch
         {
-            return false;
+            return null;
         }
     }
 

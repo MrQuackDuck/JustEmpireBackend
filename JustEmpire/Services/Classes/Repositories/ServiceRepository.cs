@@ -12,11 +12,11 @@ public class ServiceRepository : IRepository<Service>
         _dbContext = dbContext;
     }
     
-    public Service Create(Service article)
+    public Service Create(Service service)
     {
         try
         {
-            var result = _dbContext.Services.Add(article);
+            var result = _dbContext.Services.Add(service);
             _dbContext.SaveChanges();
             return result.Entity;
         }
@@ -26,25 +26,25 @@ public class ServiceRepository : IRepository<Service>
         }
     }
 
-    public bool Update(Service article)
+    public Service Update(Service service)
     {
         try
         {
-            bool success = _dbContext.Services.Update(article) is not null;
+            var result = _dbContext.Services.Update(service);
             _dbContext.SaveChanges();
-            return success;
+            return result.Entity;
         }
         catch
         {
-            return false;
+            return null;
         }
     }
 
-    public bool Delete(Service article)
+    public bool Delete(Service service)
     {
         try
         {
-            bool success = _dbContext.Services.Remove(article) is not null;
+            bool success = _dbContext.Services.Remove(service) is not null;
             _dbContext.SaveChanges();
             return success;
         }
