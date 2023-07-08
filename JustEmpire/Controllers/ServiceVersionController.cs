@@ -90,7 +90,7 @@ public class ServiceVersionController : Controller
     [HttpPost]
     [Authorize]
     [LogStaff]
-    public async Task<ActionResult<bool>> Create(CreateVersionModel versionModel)
+    public async Task<ActionResult<bool>> Create([FromBody]CreateVersionModel versionModel)
     {
         var currentUser = _userAccessor.GetCurrentUser() ?? null;
         var currentUserRank = _userAccessor.GetCurrentUserRank() ?? null;
@@ -130,7 +130,7 @@ public class ServiceVersionController : Controller
     [HttpPut]
     [Authorize]
     [LogStaff]
-    public async Task<ActionResult<bool>> Edit(EditVersionModel versionModel)
+    public async Task<ActionResult<bool>> Edit([FromBody]EditVersionModel versionModel)
     {
         var currentUser = _userAccessor.GetCurrentUser();
         var currentUserRank = _userAccessor.GetCurrentUserRank();
