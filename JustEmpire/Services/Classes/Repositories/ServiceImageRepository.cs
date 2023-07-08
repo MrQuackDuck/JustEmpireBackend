@@ -30,6 +30,7 @@ public class ServiceImageRepository : IRepository<ServiceImage>
     {
         try
         {
+            serviceImage.LastChangeDate = DateTime.Now;
             var result = _dbContext.ServiceImages.Update(serviceImage);
             _dbContext.SaveChanges();
             return result.Entity;

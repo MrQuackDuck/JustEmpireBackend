@@ -31,6 +31,7 @@ public class ArticleRepository : IRepository<Article>
     {
         try
         {
+            article.LastChangeDate = DateTime.Now;
             var result = _dbContext.Articles.Update(article);
             _dbContext.SaveChanges();
             return result.Entity;

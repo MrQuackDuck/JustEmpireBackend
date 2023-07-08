@@ -30,6 +30,7 @@ public class ServiceVersionRepository : IRepository<ServiceVersion>
     {
         try
         {
+            serviceVersion.LastChangeDate = DateTime.Now;
             var result = _dbContext.ServiceVersions.Update(serviceVersion);
             _dbContext.SaveChanges();
             return result.Entity;

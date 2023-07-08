@@ -30,6 +30,7 @@ public class ServiceCategoryRepository : IRepository<ServiceCategory>
     {
         try
         {
+            category.LastChangeDate = DateTime.Now;
             var result = _dbContext.ServiceCategories.Update(category);
             _dbContext.SaveChanges();
             return result.Entity;
@@ -71,7 +72,9 @@ public class ServiceCategoryRepository : IRepository<ServiceCategory>
 
     public List<ServiceCategory> GetAll()
     {
-        return _dbContext.ServiceCategories.ToList();
+        return _dbContext.ServiceCategories
+            .OrderByDescending(c => c.Id)
+            .ToList();
     }
     
     /// <summary>
@@ -79,7 +82,7 @@ public class ServiceCategoryRepository : IRepository<ServiceCategory>
     /// </summary>
     public int GetTotalCount()
     {
-        return _dbContext.Services.Count();
+        return _dbContext.ServiceCategories.Count();
     }
 
     public ServiceCategory GetById(int id)

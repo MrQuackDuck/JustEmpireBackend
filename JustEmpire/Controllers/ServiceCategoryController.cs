@@ -71,7 +71,7 @@ public class ServiceCategoryController : Controller
     [HttpPost]
     [Authorize]
     [LogStaff]
-    public async Task<ActionResult<bool>> Create(CreateCategoryModel categoryModel)
+    public async Task<ActionResult<bool>> Create([FromBody]CreateCategoryModel categoryModel)
     {
         var currentUser = _userAccessor.GetCurrentUser() ?? null;
         var currentUserRank = _userAccessor.GetCurrentUserRank() ?? null;
@@ -100,7 +100,7 @@ public class ServiceCategoryController : Controller
     [HttpPut]
     [Authorize]
     [LogStaff]
-    public async Task<ActionResult<bool>> Edit(EditCategoryModel categoryModel)
+    public async Task<ActionResult<bool>> Edit([FromBody]EditCategoryModel categoryModel)
     {
         var currentUser = _userAccessor.GetCurrentUser();
         var currentUserRank = _userAccessor.GetCurrentUserRank();
@@ -117,13 +117,14 @@ public class ServiceCategoryController : Controller
         if (isOwnCategory && currentUserRank.EditPostableOwn is false) return Forbid();
         if (!isOwnCategory && currentUserRank.EditPostableOthers is false) return Forbid();
 
-        originalCategory.Id = default;
+        originalCategory.Id = categoryModel.Id;
         originalCategory.Title = categoryModel.Title;
         originalCategory.Language = categoryModel.Language;
 
         if ((isOwnCategory && currentUserRank.ApprovementToEditPostableOwn) ||
             (!isOwnCategory && currentUserRank.ApprovementToEditPostableOthers))
         {
+            originalCategory.Id = default;
             originalCategory.OriginalId = categoryModel.Id;
             originalCategory.Status = Status.QUEUE_UPDATE;
             bool success = _serviceCategoryRepository.Create(originalCategory) != null;
@@ -136,25 +137,25 @@ public class ServiceCategoryController : Controller
         }
     }
     
-    [HttpDelete]
+    [HttpGet]
     [Authorize]
     [LogStaff]
-    public async Task<ActionResult<bool>> Delete(int serviceId)
+    public async Task<ActionResult<bool>> Delete(int serviceCategoryId)
     {
         // If the category is already in queue to be deleted
-        if (_serviceCategoryRepository.GetByOriginalId(serviceId) is not null) return false;
+        if (_serviceCategoryRepository.GetByOriginalId(serviceCategoryId) is not null) return false;
         
         var currentUser = _userAccessor.GetCurrentUser();
         var currentUserRank = _userAccessor.GetCurrentUserRank();
 
         if (currentUser is null || currentUserRank is null) return Unauthorized();
 
-        var targetCategory = _serviceCategoryRepository.GetById(serviceId) ?? null;
+        var targetCategory = _serviceCategoryRepository.GetById(serviceCategoryId) ?? null;
         if (targetCategory is null) return NotFound();
 
         if (targetCategory.Status != Status.POSTED) return false;
         
-        // Does the user own the service
+        // Does the user own the category
         bool isOwnCategory = currentUser.Id == targetCategory.AuthorId;
         
         if (isOwnCategory && currentUserRank.DeletePostableOwn is false) return Forbid();

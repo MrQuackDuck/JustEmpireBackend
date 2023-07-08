@@ -151,7 +151,7 @@ public class ServiceVersionController : Controller
         if (isOwnService && currentUserRank.EditPostableOwn is false) return Forbid();
         if (!isOwnService && currentUserRank.EditPostableOthers is false) return Forbid();
 
-        originalVersion.Id = default;
+        originalVersion.Id = versionModel.Id;
         originalVersion.Title = versionModel.Title;
         originalVersion.Text = versionModel.Text;
         originalVersion.ServiceId = versionModel.ServiceId;
@@ -159,6 +159,8 @@ public class ServiceVersionController : Controller
         if ((isOwnService && currentUserRank.ApprovementToEditPostableOwn) ||
             (!isOwnService && currentUserRank.ApprovementToEditPostableOthers))
         {
+            
+            originalVersion.Id = default;
             originalVersion.OriginalId = versionModel.Id;
             originalVersion.Status = Status.QUEUE_UPDATE;
             bool success = _serviceVersionRepository.Create(originalVersion) != null;
