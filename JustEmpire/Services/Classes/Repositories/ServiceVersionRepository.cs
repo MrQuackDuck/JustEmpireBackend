@@ -72,7 +72,9 @@ public class ServiceVersionRepository : IRepository<ServiceVersion>
 
     public List<ServiceVersion> GetAll()
     {
-        return _dbContext.ServiceVersions.ToList();
+        return _dbContext.ServiceVersions
+            .OrderByDescending(v => v.Id)
+            .ToList();
     }
     
     /// <summary>

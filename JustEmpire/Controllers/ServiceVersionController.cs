@@ -173,20 +173,20 @@ public class ServiceVersionController : Controller
         }
     }
     
-    [HttpDelete]
+    [HttpGet]
     [Authorize]
     [LogStaff]
-    public async Task<ActionResult<bool>> Delete(int serviceId)
+    public async Task<ActionResult<bool>> Delete(int serviceVersionId)
     {
         // If the version is already in queue to be deleted
-        if (_serviceVersionRepository.GetByOriginalId(serviceId) is not null) return false;
+        if (_serviceVersionRepository.GetByOriginalId(serviceVersionId) is not null) return false;
         
         var currentUser = _userAccessor.GetCurrentUser();
         var currentUserRank = _userAccessor.GetCurrentUserRank();
 
         if (currentUser is null || currentUserRank is null) return Unauthorized();
 
-        var targetVersion = _serviceVersionRepository.GetById(serviceId) ?? null;
+        var targetVersion = _serviceVersionRepository.GetById(serviceVersionId) ?? null;
         if (targetVersion is null) return NotFound();
 
         if (targetVersion.Status != Status.POSTED) return false;
