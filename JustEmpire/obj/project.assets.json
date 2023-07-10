@@ -1795,24 +1795,25 @@
     ]
   },
   "packageFolders": {
-    "/home/mrquackduck/.nuget/packages/": {}
+    "C:\\Users\\mrqua\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/mrquackduck/RiderProjects/JustEmpire/JustEmpire/JustEmpire.csproj",
+      "projectUniqueName": "C:\\Users\\mrqua\\repos\\source\\JustEmpire\\JustEmpire\\JustEmpire.csproj",
       "projectName": "JustEmpire",
-      "projectPath": "/home/mrquackduck/RiderProjects/JustEmpire/JustEmpire/JustEmpire.csproj",
-      "packagesPath": "/home/mrquackduck/.nuget/packages/",
-      "outputPath": "/home/mrquackduck/RiderProjects/JustEmpire/JustEmpire/obj/",
+      "projectPath": "C:\\Users\\mrqua\\repos\\source\\JustEmpire\\JustEmpire\\JustEmpire.csproj",
+      "packagesPath": "C:\\Users\\mrqua\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\mrqua\\repos\\source\\JustEmpire\\JustEmpire\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/home/mrquackduck/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\mrqua\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net7.0"
       ],
       "sources": {
+        "C:\\Program Files\\dotnet\\sdk\\7.0.302\\Sdks\\Microsoft.NET.Sdk.Web\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -1881,7 +1882,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/7.0.108/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.302\\RuntimeIdentifierGraph.json"
       }
     }
   }

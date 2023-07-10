@@ -113,7 +113,9 @@ public class ServiceImageController : Controller
             AuthorId = currentUser.Id,
             Status = Status.POSTED,
             Image = imageModel.Image,
-            ServiceId = imageModel.ServiceId
+            ServiceId = imageModel.ServiceId,
+            PublishDate = DateTime.Now,
+            LastChangeDate = DateTime.Now
         };
 
         // Check if the user needs an approvement to add an image to other's service
@@ -125,7 +127,7 @@ public class ServiceImageController : Controller
     [HttpPut]
     [Authorize]
     [LogStaff]
-    public async Task<ActionResult<bool>> Edit(EditImageModel imageModel)
+    public async Task<ActionResult<bool>> Edit([FromBody]EditImageModel imageModel)
     {
         var currentUser = _userAccessor.GetCurrentUser();
         var currentUserRank = _userAccessor.GetCurrentUserRank();
@@ -142,13 +144,15 @@ public class ServiceImageController : Controller
         if (isOwnImage && currentUserRank.EditPostableOwn is false) return Forbid();
         if (!isOwnImage && currentUserRank.EditPostableOthers is false) return Forbid();
 
-        originalImage.Id = default;
+        originalImage.Id = imageModel.Id;
         originalImage.ServiceId = imageModel.ServiceId;
         originalImage.Image = imageModel.Image;
+        originalImage.LastChangeDate = DateTime.Now;
 
         if ((isOwnImage && currentUserRank.ApprovementToEditPostableOwn) ||
             (!isOwnImage && currentUserRank.ApprovementToEditPostableOthers))
         {
+            originalImage.Id = default;
             originalImage.OriginalId = imageModel.Id;
             originalImage.Status = Status.QUEUE_UPDATE;
             bool success = _serviceImageRepository.Create(originalImage) != null;
@@ -164,17 +168,17 @@ public class ServiceImageController : Controller
     [HttpDelete]
     [Authorize]
     [LogStaff]
-    public async Task<ActionResult<bool>> Delete(int serviceId)
+    public async Task<ActionResult<bool>> Delete(int imageId)
     {
         // If the image is already in queue to be deleted
-        if (_serviceImageRepository.GetByOriginalId(serviceId) is not null) return false;
+        if (_serviceImageRepository.GetByOriginalId(imageId) is not null) return false;
         
         var currentUser = _userAccessor.GetCurrentUser();
         var currentUserRank = _userAccessor.GetCurrentUserRank();
 
         if (currentUser is null || currentUserRank is null) return Unauthorized();
 
-        var targetImage = _serviceImageRepository.GetById(serviceId) ?? null;
+        var targetImage = _serviceImageRepository.GetById(imageId) ?? null;
         if (targetImage is null) return NotFound();
 
         if (targetImage.Status != Status.POSTED) return false;

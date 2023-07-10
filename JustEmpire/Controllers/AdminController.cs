@@ -46,6 +46,6 @@ public class AdminController : Controller
             await image.CopyToAsync(fileStream);
         }
 
-        return Ok(new { filename});
+        return Ok(new { filename} );
     }
 }

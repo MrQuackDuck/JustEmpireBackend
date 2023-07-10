@@ -72,7 +72,9 @@ public class ServiceImageRepository : IRepository<ServiceImage>
 
     public List<ServiceImage> GetAll()
     {
-        return _dbContext.ServiceImages.ToList();
+        return _dbContext.ServiceImages
+            .OrderByDescending(i => i.Id)
+            .ToList();
     }
     
     /// <summary>
