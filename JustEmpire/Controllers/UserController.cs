@@ -34,6 +34,20 @@ public class UserController : Controller
         return _userRepository.GetTotalCount();
     }
 
+    [HttpGet]
+    [Authorize(Roles = "Emperor")]
+    [LogStaff]
+    public async Task<List<User>> GetAllStaff()
+    {
+        var users = _userRepository.GetAll();
+        foreach (var user in users)
+        {
+            user.PasswordHash = "";
+        }
+
+        return users;
+    }
+
     [HttpPost]
     [Authorize(Roles = "Emperor")]
     [LogStaff]
@@ -64,7 +78,7 @@ public class UserController : Controller
         }
     }
 
-    [HttpPost]
+    [HttpPut]
     [Authorize(Roles = "Emperor")]
     [LogStaff]
     public async Task<ActionResult<bool>> Edit([FromBody]EditUserModel userModel)
@@ -74,13 +88,11 @@ public class UserController : Controller
 
         user.Username = userModel.Username;
         user.RankId = userModel.RankId ?? user.RankId;
-        if (userModel.Password is not null)
-            user.PasswordHash = _userRepository.Sha256(userModel.Password);
 
         return !(_userRepository.Update(user) == null);
     }
 
-    [HttpDelete]
+    [HttpGet]
     [Authorize(Roles = "Emperor")]
     [LogStaff]
     public async Task<ActionResult<bool>> Delete(int userId)

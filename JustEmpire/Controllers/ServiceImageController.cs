@@ -165,7 +165,7 @@ public class ServiceImageController : Controller
         }
     }
     
-    [HttpDelete]
+    [HttpGet]
     [Authorize]
     [LogStaff]
     public async Task<ActionResult<bool>> Delete(int imageId)

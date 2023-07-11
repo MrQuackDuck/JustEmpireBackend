@@ -73,7 +73,9 @@ public class UserRepository
 
     public List<User> GetAll()
     {
-        return _dbContext.Users.ToList();
+        return _dbContext.Users
+            .OrderByDescending(u => u.Id)
+            .ToList();
     }
 
     public int GetTotalCount()
