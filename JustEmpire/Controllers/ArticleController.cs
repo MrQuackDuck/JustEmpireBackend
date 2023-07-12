@@ -228,6 +228,17 @@ public class ArticleController : Controller
                               || article.Status == Status.QUEUE_DELETE
                               || article.Status == Status.QUEUE_UPDATE).ToList();
     }
+    
+    [HttpGet]
+    [Authorize(Roles = "Emperor")]
+    [LogStaff]
+    public async Task<ActionResult<int>> GetQueuedCount()
+    {
+        return _articleRepository.GetAll()
+            .Where(article => article.Status == Status.QUEUE_CREATE 
+                              || article.Status == Status.QUEUE_DELETE
+                              || article.Status == Status.QUEUE_UPDATE).Count();
+    }
 
     [HttpPut]
     [Authorize(Roles = "Emperor")]

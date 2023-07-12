@@ -225,6 +225,17 @@ public class ServiceVersionController : Controller
                               || version.Status == Status.QUEUE_UPDATE).ToList();
     }
     
+    [HttpGet]
+    [Authorize(Roles = "Emperor")]
+    [LogStaff]
+    public async Task<ActionResult<int>> GetQueuedCount()
+    {
+        return _serviceVersionRepository.GetAll()
+            .Where(version => version.Status == Status.QUEUE_CREATE 
+                              || version.Status == Status.QUEUE_DELETE
+                              || version.Status == Status.QUEUE_UPDATE).Count();
+    }
+    
     [HttpPut]
     [Authorize(Roles = "Emperor")]
     [LogStaff]

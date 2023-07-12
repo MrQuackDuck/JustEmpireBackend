@@ -2,7 +2,7 @@
 
 namespace JustEmpire.Models.Interfaces;
 
-public interface IPostable
+public interface IPostable : IQueueable
 {
     int Id { get; set; }
     string Title { get; set; }

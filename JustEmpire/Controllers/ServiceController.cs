@@ -234,6 +234,17 @@ public class ServiceController : Controller
                               || service.Status == Status.QUEUE_UPDATE).ToList();
     }
     
+    [HttpGet]
+    [Authorize(Roles = "Emperor")]
+    [LogStaff]
+    public async Task<ActionResult<int>> GetQueuedCount()
+    {
+        return _serviceRepository.GetAll()
+            .Where(service => service.Status == Status.QUEUE_CREATE 
+                              || service.Status == Status.QUEUE_DELETE
+                              || service.Status == Status.QUEUE_UPDATE).Count();
+    }
+    
     [HttpPut]
     [Authorize(Roles = "Emperor")]
     [LogStaff]

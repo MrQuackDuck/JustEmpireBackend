@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "+6TPF480CoBdOAYfmN9C/ycpyLViTWG0zILGBlPZG2w=",
+  "Hash": "5CrRVKDymVMNEqnHdbXAhgA1pkg+L3ebzJRsbjngO74=",
   "Source": "JustEmpire",
   "BasePath": "_content/JustEmpire",
   "Mode": "Default",
@@ -134,6 +134,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/uploads/e38a1d7c-666d-4fdf-91a5-dcc2393f4b9b.jpg"
+    },
+    {
+      "Identity": "/home/mrquackduck/RiderProjects/JustEmpire/JustEmpire/wwwroot/uploads/e7dc4f2f-25f0-44db-9082-42dc372113a9.jpg",
+      "SourceId": "JustEmpire",
+      "SourceType": "Discovered",
+      "ContentRoot": "/home/mrquackduck/RiderProjects/JustEmpire/JustEmpire/wwwroot/",
+      "BasePath": "_content/JustEmpire",
+      "RelativePath": "uploads/e7dc4f2f-25f0-44db-9082-42dc372113a9.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/uploads/e7dc4f2f-25f0-44db-9082-42dc372113a9.jpg"
     },
     {
       "Identity": "/home/mrquackduck/RiderProjects/JustEmpire/JustEmpire/wwwroot/uploads/fc4615da-0424-4d56-ba8a-933df7600f35.jpg",

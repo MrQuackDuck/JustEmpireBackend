@@ -189,6 +189,17 @@ public class ServiceCategoryController : Controller
                               || category.Status == Status.QUEUE_UPDATE).ToList();
     }
     
+    [HttpGet]
+    [Authorize(Roles = "Emperor")]
+    [LogStaff]
+    public async Task<ActionResult<int>> GetQueuedCount()
+    {
+        return _serviceCategoryRepository.GetAll()
+            .Where(category => category.Status == Status.QUEUE_CREATE 
+                               || category.Status == Status.QUEUE_DELETE
+                               || category.Status == Status.QUEUE_UPDATE).Count();
+    }
+    
     [HttpPut]
     [Authorize(Roles = "Emperor")]
     [LogStaff]

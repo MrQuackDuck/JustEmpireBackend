@@ -217,6 +217,17 @@ public class ServiceImageController : Controller
                               || image.Status == Status.QUEUE_UPDATE).ToList();
     }
     
+    [HttpGet]
+    [Authorize(Roles = "Emperor")]
+    [LogStaff]
+    public async Task<ActionResult<int>> GetQueuedCount()
+    {
+        return _serviceImageRepository.GetAll()
+            .Where(image => image.Status == Status.QUEUE_CREATE 
+                            || image.Status == Status.QUEUE_DELETE
+                            || image.Status == Status.QUEUE_UPDATE).Count();
+    }
+    
     [HttpPut]
     [Authorize(Roles = "Emperor")]
     [LogStaff]
