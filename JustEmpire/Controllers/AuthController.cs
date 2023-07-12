@@ -3,6 +3,7 @@ using System.Security.Claims;
 using JustEmpire.Attributes;
 using JustEmpire.Models.Classes;
 using JustEmpire.Models.Classes.AcceptModels;
+using JustEmpire.Models.Classes.AcceptModels.Admin;
 using JustEmpire.Services;
 using JustEmpire.Services.Classes;
 using Microsoft.AspNetCore.Authentication;
@@ -38,6 +39,11 @@ public class AuthController : Controller
     [LogAction]
     public async Task<ActionResult> Login([FromBody]UserModel userData)
     {
+        if (userData.Username.Length > 20 || userData.Password.Length > 80)
+        {
+            return Forbid();
+        }
+        
         var user = _userRepository.GetByUsername(userData?.Username) ?? null;
         // If user is not found
         if (user is null) return Unauthorized();
@@ -72,6 +78,30 @@ public class AuthController : Controller
             Secure = true
         });
         return Ok(new { token });
+    }
+
+    [HttpPost]
+    [Authorize]
+    [LogAction]
+    public async Task<IActionResult> ChangePassword([FromBody]ChangePasswordModel model)
+    {
+        var oldPassword = model.OldPassword;
+        var newPassword = model.NewPassword;
+        
+        if (newPassword.Length > 80 || oldPassword.Length > 80)
+        {
+            return Forbid();
+        }
+        
+        var user = _userAccessor.GetCurrentUser();
+        bool result = _userRepository.ChangePassword(user.Id, oldPassword, newPassword);
+        
+        if (result)
+        {
+            Response.Cookies.Delete("jwt");
+            return Ok();
+        }
+        else return Forbid();
     }
 
     [HttpGet]

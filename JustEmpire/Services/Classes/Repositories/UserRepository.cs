@@ -93,6 +93,18 @@ public class UserRepository
         return _dbContext.Users.FirstOrDefault(user => user.Username == username) ?? null;
     }
     
+    public bool ChangePassword(int userId, string oldPassword, string newPassword)
+    {
+        var user = GetById(userId);
+        if (user is null) return false;
+
+        if (!IsPasswordCorrect(user.Username, oldPassword)) return false;
+
+        user.PasswordHash = Sha256(newPassword);
+        _dbContext.SaveChanges();
+        return true;
+    }
+    
     public bool IsPasswordCorrect(string username, string password)
     {
         var user = GetByUsername(username);
