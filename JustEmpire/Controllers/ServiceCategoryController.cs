@@ -61,9 +61,9 @@ public class ServiceCategoryController : Controller
     [HttpGet]
     [Authorize]
     [LogStaff]
-    public async Task<ActionResult<ServiceCategory>> GetByIdStaff(int serviceId)
+    public async Task<ActionResult<ServiceCategory>> GetByIdStaff(int categoryId)
     {
-        var target = _serviceCategoryRepository.GetById(serviceId) ?? null;
+        var target = _serviceCategoryRepository.GetById(categoryId) ?? null;
         if (target is null) return NotFound();
         return target;
     }
@@ -203,9 +203,9 @@ public class ServiceCategoryController : Controller
     [HttpPut]
     [Authorize(Roles = "Emperor")]
     [LogStaff]
-    public async Task<ActionResult<bool>> ApproveCreate(int serviceId)
+    public async Task<ActionResult<bool>> ApproveCreate([FromBody]int categoryId)
     {
-        var targetCategory = _serviceCategoryRepository.GetById(serviceId) ?? null;
+        var targetCategory = _serviceCategoryRepository.GetById(categoryId) ?? null;
         if (targetCategory is null) return NotFound();
 
         if (targetCategory.Status != Status.QUEUE_CREATE) return BadRequest();
@@ -219,9 +219,9 @@ public class ServiceCategoryController : Controller
     [HttpPut]
     [Authorize(Roles = "Emperor")]
     [LogStaff]
-    public async Task<ActionResult<bool>> ApproveEdit(int serviceId)
+    public async Task<ActionResult<bool>> ApproveEdit([FromBody]int categoryId)
     {
-        var targetService = _serviceCategoryRepository.GetById(serviceId) ?? null;
+        var targetService = _serviceCategoryRepository.GetById(categoryId) ?? null;
         if (targetService is null) return NotFound();
 
         if (targetService.Status != Status.QUEUE_UPDATE) return BadRequest();
@@ -245,9 +245,9 @@ public class ServiceCategoryController : Controller
     [HttpPut]
     [Authorize(Roles = "Emperor")]
     [LogStaff]
-    public async Task<ActionResult<bool>> ApproveDelete(int serviceId)
+    public async Task<ActionResult<bool>> ApproveDelete([FromBody]int categoryId)
     {
-        var targetCategory = _serviceCategoryRepository.GetById(serviceId) ?? null;
+        var targetCategory = _serviceCategoryRepository.GetById(categoryId) ?? null;
         if (targetCategory is null) return NotFound();
         
         if (targetCategory.Status != Status.QUEUE_DELETE) return BadRequest();
@@ -258,5 +258,18 @@ public class ServiceCategoryController : Controller
         bool success = _serviceCategoryRepository.Delete(originalCategory) != null;
         _serviceCategoryRepository.Delete(targetCategory);
         return success;
+    }
+
+    [HttpPut]
+    [Authorize(Roles = "Emperor")]
+    [LogStaff]
+    public async Task<ActionResult> Decline([FromBody] int categoryId)
+    {
+        var targetService = _serviceCategoryRepository.GetById(categoryId) ?? null;
+        if (targetService == null) return NotFound();
+        if (targetService.Status == Status.POSTED) return Forbid();
+
+        var result = _serviceCategoryRepository.Delete(categoryId);
+        return Ok(new { result });
     }
 }

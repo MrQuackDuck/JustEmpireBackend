@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "5CrRVKDymVMNEqnHdbXAhgA1pkg+L3ebzJRsbjngO74=",
+  "Hash": "BbPnbUL0gnoqchkVvq6/pm5TpQKmAgHzZWdmrtvIbiI=",
   "Source": "JustEmpire",
   "BasePath": "_content/JustEmpire",
   "Mode": "Default",
@@ -49,6 +49,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/uploads/126a860e-a369-40c5-b8d2-e097005dc467.jpg"
+    },
+    {
+      "Identity": "/home/mrquackduck/RiderProjects/JustEmpire/JustEmpire/wwwroot/uploads/20a548d5-b4ac-4df2-bcac-6c1cba598b97.jpg",
+      "SourceId": "JustEmpire",
+      "SourceType": "Discovered",
+      "ContentRoot": "/home/mrquackduck/RiderProjects/JustEmpire/JustEmpire/wwwroot/",
+      "BasePath": "_content/JustEmpire",
+      "RelativePath": "uploads/20a548d5-b4ac-4df2-bcac-6c1cba598b97.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/uploads/20a548d5-b4ac-4df2-bcac-6c1cba598b97.jpg"
     },
     {
       "Identity": "/home/mrquackduck/RiderProjects/JustEmpire/JustEmpire/wwwroot/uploads/30baf2ba-e8a9-4e59-b8eb-85f76c9c6b9e.jpg",
@@ -102,6 +119,40 @@
       "OriginalItemSpec": "wwwroot/uploads/5f751d30-31bb-42f2-bc96-ad2225b8be25.jpeg"
     },
     {
+      "Identity": "/home/mrquackduck/RiderProjects/JustEmpire/JustEmpire/wwwroot/uploads/6053ae46-19c7-4be5-aa50-011e4d5462b5.jpeg",
+      "SourceId": "JustEmpire",
+      "SourceType": "Discovered",
+      "ContentRoot": "/home/mrquackduck/RiderProjects/JustEmpire/JustEmpire/wwwroot/",
+      "BasePath": "_content/JustEmpire",
+      "RelativePath": "uploads/6053ae46-19c7-4be5-aa50-011e4d5462b5.jpeg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/uploads/6053ae46-19c7-4be5-aa50-011e4d5462b5.jpeg"
+    },
+    {
+      "Identity": "/home/mrquackduck/RiderProjects/JustEmpire/JustEmpire/wwwroot/uploads/75550810-5104-4811-aa7a-418bff8afdbe.jpeg",
+      "SourceId": "JustEmpire",
+      "SourceType": "Discovered",
+      "ContentRoot": "/home/mrquackduck/RiderProjects/JustEmpire/JustEmpire/wwwroot/",
+      "BasePath": "_content/JustEmpire",
+      "RelativePath": "uploads/75550810-5104-4811-aa7a-418bff8afdbe.jpeg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/uploads/75550810-5104-4811-aa7a-418bff8afdbe.jpeg"
+    },
+    {
       "Identity": "/home/mrquackduck/RiderProjects/JustEmpire/JustEmpire/wwwroot/uploads/aa71bc91-ba12-4b4a-975e-c68a6e502545.jpg",
       "SourceId": "JustEmpire",
       "SourceType": "Discovered",
@@ -117,6 +168,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/uploads/aa71bc91-ba12-4b4a-975e-c68a6e502545.jpg"
+    },
+    {
+      "Identity": "/home/mrquackduck/RiderProjects/JustEmpire/JustEmpire/wwwroot/uploads/dbbd086b-bfb0-45dc-956b-1ed0619a006b.jpg",
+      "SourceId": "JustEmpire",
+      "SourceType": "Discovered",
+      "ContentRoot": "/home/mrquackduck/RiderProjects/JustEmpire/JustEmpire/wwwroot/",
+      "BasePath": "_content/JustEmpire",
+      "RelativePath": "uploads/dbbd086b-bfb0-45dc-956b-1ed0619a006b.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/uploads/dbbd086b-bfb0-45dc-956b-1ed0619a006b.jpg"
     },
     {
       "Identity": "/home/mrquackduck/RiderProjects/JustEmpire/JustEmpire/wwwroot/uploads/e38a1d7c-666d-4fdf-91a5-dcc2393f4b9b.jpg",

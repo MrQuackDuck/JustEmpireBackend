@@ -243,7 +243,7 @@ public class ArticleController : Controller
     [HttpPut]
     [Authorize(Roles = "Emperor")]
     [LogStaff]
-    public async Task<ActionResult<bool>> ApproveCreate(int articleId)
+    public async Task<ActionResult<bool>> ApproveCreate([FromBody]int articleId)
     {
         var targetArticle = _articleRepository.GetById(articleId) ?? null;
         if (targetArticle is null) return NotFound();
@@ -259,7 +259,7 @@ public class ArticleController : Controller
     [HttpPut]
     [Authorize(Roles = "Emperor")]
     [LogStaff]
-    public async Task<ActionResult<bool>> ApproveEdit(int articleId)
+    public async Task<ActionResult<bool>> ApproveEdit([FromBody]int articleId)
     {
         var targetArticle = _articleRepository.GetById(articleId) ?? null;
         if (targetArticle is null) return NotFound();
@@ -287,7 +287,7 @@ public class ArticleController : Controller
     [HttpPut]
     [Authorize(Roles = "Emperor")]
     [LogStaff]
-    public async Task<ActionResult<bool>> ApproveDelete(int articleId)
+    public async Task<ActionResult<bool>> ApproveDelete([FromBody]int articleId)
     {
         var targetArticle = _articleRepository.GetById(articleId) ?? null;
         if (targetArticle is null) return NotFound();
@@ -300,5 +300,18 @@ public class ArticleController : Controller
         bool success = _articleRepository.Delete(originalArticle) != null;
         _articleRepository.Delete(targetArticle);
         return success;
+    }
+    
+    [HttpPut]
+    [Authorize(Roles = "Emperor")]
+    [LogStaff]
+    public async Task<ActionResult> Decline([FromBody] int articleId)
+    {
+        var targetArticle = _articleRepository.GetById(articleId) ?? null;
+        if (targetArticle == null) return NotFound();
+        if (targetArticle.Status == Status.POSTED) return Forbid();
+
+        var result = _articleRepository.Delete(articleId);
+        return Ok(new { result });
     }
 }

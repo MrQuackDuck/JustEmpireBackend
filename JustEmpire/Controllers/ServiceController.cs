@@ -248,7 +248,7 @@ public class ServiceController : Controller
     [HttpPut]
     [Authorize(Roles = "Emperor")]
     [LogStaff]
-    public async Task<ActionResult<bool>> ApproveCreate(int serviceId)
+    public async Task<ActionResult<bool>> ApproveCreate([FromBody]int serviceId)
     {
         var targetService = _serviceRepository.GetById(serviceId) ?? null;
         if (targetService is null) return NotFound();
@@ -264,7 +264,7 @@ public class ServiceController : Controller
     [HttpPut]
     [Authorize(Roles = "Emperor")]
     [LogStaff]
-    public async Task<ActionResult<bool>> ApproveEdit(int serviceId)
+    public async Task<ActionResult<bool>> ApproveEdit([FromBody]int serviceId)
     {
         var targetService = _serviceRepository.GetById(serviceId) ?? null;
         if (targetService is null) return NotFound();
@@ -295,7 +295,7 @@ public class ServiceController : Controller
     [HttpPut]
     [Authorize(Roles = "Emperor")]
     [LogStaff]
-    public async Task<ActionResult<bool>> ApproveDelete(int serviceId)
+    public async Task<ActionResult<bool>> ApproveDelete([FromBody]int serviceId)
     {
         var targetService = _serviceRepository.GetById(serviceId) ?? null;
         if (targetService is null) return NotFound();
@@ -308,5 +308,18 @@ public class ServiceController : Controller
         bool success = _serviceRepository.Delete(originalService) != null;
         _serviceRepository.Delete(targetService);
         return success;
+    }
+    
+    [HttpPut]
+    [Authorize(Roles = "Emperor")]
+    [LogStaff]
+    public async Task<ActionResult> Decline([FromBody] int serviceId)
+    {
+        var targetService = _serviceRepository.GetById(serviceId) ?? null;
+        if (targetService == null) return NotFound();
+        if (targetService.Status == Status.POSTED) return Forbid();
+
+        var result = _serviceRepository.Delete(serviceId);
+        return Ok(new { result });
     }
 }

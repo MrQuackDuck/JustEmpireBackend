@@ -83,9 +83,9 @@ public class ServiceImageController : Controller
     [HttpGet]
     [Authorize]
     [LogStaff]
-    public async Task<ActionResult<ServiceImage>> GetByIdStaff(int serviceId)
+    public async Task<ActionResult<ServiceImage>> GetByIdStaff(int imageId)
     {
-        var target = _serviceImageRepository.GetById(serviceId) ?? null;
+        var target = _serviceImageRepository.GetById(imageId) ?? null;
         if (target is null) return NotFound();
         return target;
     }
@@ -115,7 +115,8 @@ public class ServiceImageController : Controller
             Image = imageModel.Image,
             ServiceId = imageModel.ServiceId,
             PublishDate = DateTime.Now,
-            LastChangeDate = DateTime.Now
+            LastChangeDate = DateTime.Now,
+            Type = PostableType.IMAGE
         };
 
         // Check if the user needs an approvement to add an image to other's service
@@ -231,9 +232,9 @@ public class ServiceImageController : Controller
     [HttpPut]
     [Authorize(Roles = "Emperor")]
     [LogStaff]
-    public async Task<ActionResult<bool>> ApproveCreate(int serviceId)
+    public async Task<ActionResult<bool>> ApproveCreate([FromBody]int imageId)
     {
-        var targetImage = _serviceImageRepository.GetById(serviceId) ?? null;
+        var targetImage = _serviceImageRepository.GetById(imageId) ?? null;
         if (targetImage is null) return NotFound();
 
         if (targetImage.Status != Status.QUEUE_CREATE) return BadRequest();
@@ -247,9 +248,9 @@ public class ServiceImageController : Controller
     [HttpPut]
     [Authorize(Roles = "Emperor")]
     [LogStaff]
-    public async Task<ActionResult<bool>> ApproveEdit(int serviceId)
+    public async Task<ActionResult<bool>> ApproveEdit([FromBody]int imageId)
     {
-        var targetImage = _serviceImageRepository.GetById(serviceId) ?? null;
+        var targetImage = _serviceImageRepository.GetById(imageId) ?? null;
         if (targetImage is null) return NotFound();
 
         if (targetImage.Status != Status.QUEUE_UPDATE) return BadRequest();
@@ -273,9 +274,9 @@ public class ServiceImageController : Controller
     [HttpPut]
     [Authorize(Roles = "Emperor")]
     [LogStaff]
-    public async Task<ActionResult<bool>> ApproveDelete(int serviceId)
+    public async Task<ActionResult<bool>> ApproveDelete([FromBody]int imageId)
     {
-        var targetImage = _serviceImageRepository.GetById(serviceId) ?? null;
+        var targetImage = _serviceImageRepository.GetById(imageId) ?? null;
         if (targetImage is null) return NotFound();
         
         if (targetImage.Status != Status.QUEUE_DELETE) return BadRequest();
@@ -288,4 +289,16 @@ public class ServiceImageController : Controller
         return success;
     }
 
+    [HttpPut]
+    [Authorize(Roles = "Emperor")]
+    [LogStaff]
+    public async Task<ActionResult> Decline([FromBody] int imageId)
+    {
+        var targetService = _serviceImageRepository.GetById(imageId) ?? null;
+        if (targetService == null) return NotFound();
+        if (targetService.Status == Status.POSTED) return Forbid();
+
+        var result = _serviceImageRepository.Delete(imageId);
+        return Ok(new { result });
+    }
 }

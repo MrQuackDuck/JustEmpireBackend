@@ -80,9 +80,9 @@ public class ServiceVersionController : Controller
     [HttpGet]
     [Authorize]
     [LogStaff]
-    public async Task<ActionResult<ServiceVersion>> GetByIdStaff(int serviceId)
+    public async Task<ActionResult<ServiceVersion>> GetByIdStaff(int versionId)
     {
-        var target = _serviceVersionRepository.GetById(serviceId) ?? null;
+        var target = _serviceVersionRepository.GetById(versionId) ?? null;
         if (target is null) return NotFound();
         return target;
     }
@@ -239,9 +239,9 @@ public class ServiceVersionController : Controller
     [HttpPut]
     [Authorize(Roles = "Emperor")]
     [LogStaff]
-    public async Task<ActionResult<bool>> ApproveCreate(int serviceId)
+    public async Task<ActionResult<bool>> ApproveCreate([FromBody]int versionId)
     {
-        var targetVersion = _serviceVersionRepository.GetById(serviceId) ?? null;
+        var targetVersion = _serviceVersionRepository.GetById(versionId) ?? null;
         if (targetVersion is null) return NotFound();
 
         if (targetVersion.Status != Status.QUEUE_CREATE) return BadRequest();
@@ -255,9 +255,9 @@ public class ServiceVersionController : Controller
     [HttpPut]
     [Authorize(Roles = "Emperor")]
     [LogStaff]
-    public async Task<ActionResult<bool>> ApproveEdit(int serviceId)
+    public async Task<ActionResult<bool>> ApproveEdit([FromBody]int versionId)
     {
-        var targetVersion = _serviceVersionRepository.GetById(serviceId) ?? null;
+        var targetVersion = _serviceVersionRepository.GetById(versionId) ?? null;
         if (targetVersion is null) return NotFound();
 
         if (targetVersion.Status != Status.QUEUE_UPDATE) return BadRequest();
@@ -282,9 +282,9 @@ public class ServiceVersionController : Controller
     [HttpPut]
     [Authorize(Roles = "Emperor")]
     [LogStaff]
-    public async Task<ActionResult<bool>> ApproveDelete(int serviceId)
+    public async Task<ActionResult<bool>> ApproveDelete([FromBody]int versionId)
     {
-        var targetVersion = _serviceVersionRepository.GetById(serviceId) ?? null;
+        var targetVersion = _serviceVersionRepository.GetById(versionId) ?? null;
         if (targetVersion is null) return NotFound();
         
         if (targetVersion.Status != Status.QUEUE_DELETE) return BadRequest();
@@ -295,5 +295,19 @@ public class ServiceVersionController : Controller
         bool success = _serviceVersionRepository.Delete(originalVersion) != null;
         _serviceVersionRepository.Delete(targetVersion);
         return success;
+    }
+    
+    
+    [HttpPut]
+    [Authorize(Roles = "Emperor")]
+    [LogStaff]
+    public async Task<ActionResult> Decline([FromBody] int versionId)
+    {
+        var targetService = _serviceVersionRepository.GetById(versionId) ?? null;
+        if (targetService == null) return NotFound();
+        if (targetService.Status == Status.POSTED) return Forbid();
+
+        var result = _serviceVersionRepository.Delete(versionId);
+        return Ok(new { result });
     }
 }
