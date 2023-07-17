@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "BbPnbUL0gnoqchkVvq6/pm5TpQKmAgHzZWdmrtvIbiI=",
+  "Hash": "/562P0mZYbMbKAVr0W+BK8DIn7Q9vgmoR2vQjwE+qYc=",
   "Source": "JustEmpire",
   "BasePath": "_content/JustEmpire",
   "Mode": "Default",
@@ -16,6 +16,23 @@
     }
   ],
   "Assets": [
+    {
+      "Identity": "/home/mrquackduck/RiderProjects/JustEmpire/JustEmpire/wwwroot/uploads/0beb2d3f-6b8b-49de-91f0-5fb0ef39e194.jpg",
+      "SourceId": "JustEmpire",
+      "SourceType": "Discovered",
+      "ContentRoot": "/home/mrquackduck/RiderProjects/JustEmpire/JustEmpire/wwwroot/",
+      "BasePath": "_content/JustEmpire",
+      "RelativePath": "uploads/0beb2d3f-6b8b-49de-91f0-5fb0ef39e194.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/uploads/0beb2d3f-6b8b-49de-91f0-5fb0ef39e194.jpg"
+    },
     {
       "Identity": "/home/mrquackduck/RiderProjects/JustEmpire/JustEmpire/wwwroot/uploads/1035ae37-2dea-4a38-9e1a-7269a067fad7.jpg",
       "SourceId": "JustEmpire",
