@@ -80,7 +80,7 @@ public class ArticleRepository : IRepository<Article>
 
     public List<RecentArticle> GetRecent(Language language, int count)
     {
-        return (from article in _dbContext.Articles where article.Language == language orderby article.PublishDate descending select new RecentArticle()
+        return (from article in _dbContext.Articles orderby article.PublishDate descending select new RecentArticle()
             {
                 Id = article.Id,
                 Title = article.Title,
