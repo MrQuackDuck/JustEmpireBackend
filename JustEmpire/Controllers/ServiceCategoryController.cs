@@ -8,6 +8,7 @@ using JustEmpire.Services.Classes;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace JustEmpire.Controllers;
 
@@ -24,6 +25,7 @@ public class ServiceCategoryController : Controller
     
     [HttpGet]
     [LogAction]
+    [EnableRateLimiting("client")]
     public async Task<ActionResult<List<ServiceCategory>>> GetAll(Language language)
     {
         var data = _serviceCategoryRepository.GetAll();
@@ -40,6 +42,7 @@ public class ServiceCategoryController : Controller
 
     [HttpGet]
     [LogAction]
+    [EnableRateLimiting("client")]
     public async Task<ActionResult<ServiceCategory>> GetById(int id)
     {
         var target = _serviceCategoryRepository.GetById(id);

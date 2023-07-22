@@ -3,6 +3,7 @@ using JustEmpire.Models.Enums;
 using JustEmpire.Models.Interfaces;
 using JustEmpire.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace JustEmpire.Controllers;
 
@@ -19,6 +20,7 @@ public class SearchController : Controller
 
     [HttpGet]
     [LogAction]
+    [EnableRateLimiting("client")]
     public List<IPostable> Find(string searchString)
     {
         var result = new List<IPostable>();

@@ -27,6 +27,7 @@ public class ArticleController : Controller
     [HttpGet]
     [LogAction]
     [CountView]
+    [EnableRateLimiting("client")]
     public async Task<ActionResult<List<Article>>> GetAll(Language language)
     {
         return _articleRepository.GetAll().Where(article => article.Status == Status.POSTED && article.Language == language).ToList();
@@ -37,6 +38,7 @@ public class ArticleController : Controller
     /// </summary>
     [HttpGet]
     [LogAction]
+    [EnableRateLimiting("client")]
     public async Task<ActionResult<List<RecentArticle>>> GetRecent(Language language, int count)
     {
         if (count <= 0 || count > 20) return null;
@@ -58,6 +60,7 @@ public class ArticleController : Controller
     /// <summary>
     /// Get total pages count (used to realize pagination)
     /// </summary>
+    [EnableRateLimiting("client")]
     public async Task<int> GetPagesCount(Language language, int itemsOnPage)
     {
         int totalArticlesCount = _articleRepository.GetTotalCount(language);
@@ -68,6 +71,7 @@ public class ArticleController : Controller
     [HttpGet]
     [LogAction]
     [CountView]
+    [EnableRateLimiting("client")]
     public async Task<ActionResult<Article>> GetById(int id)
     {
         var target = _articleRepository.GetById(id);
@@ -79,6 +83,7 @@ public class ArticleController : Controller
     [HttpGet]
     [LogStaff]
     [Authorize]
+    [EnableRateLimiting("client")]
     public async Task<ActionResult<int>> GetCount()
     {
         return _articleRepository.GetTotalCount();

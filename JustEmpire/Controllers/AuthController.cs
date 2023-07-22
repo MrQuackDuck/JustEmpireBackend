@@ -9,6 +9,7 @@ using JustEmpire.Services.Classes;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
 
@@ -37,6 +38,7 @@ public class AuthController : Controller
     /// <returns>JWT Token</returns>
     [HttpPost]
     [LogAction]
+    [EnableRateLimiting("auth")]
     public async Task<ActionResult> Login([FromBody]UserModel userData)
     {
         if (userData.Username.Length > 20 || userData.Password.Length > 80)

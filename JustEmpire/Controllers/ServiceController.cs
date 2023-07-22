@@ -6,6 +6,7 @@ using JustEmpire.Services;
 using JustEmpire.Services.Classes;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace JustEmpire.Controllers;
 
@@ -27,6 +28,7 @@ public class ServiceController : Controller
     [HttpGet]
     [LogAction]
     [CountView]
+    [EnableRateLimiting("client")]
     public List<Service> GetAll(Language language, string[] categories = null, string searchString = "")
      {
         if (categories is null) categories = new []{ "" };
@@ -67,6 +69,7 @@ public class ServiceController : Controller
     [HttpGet]
     [LogStaff]
     [Authorize]
+    [EnableRateLimiting("client")]
     public async Task<ActionResult<int>> GetCount()
     {
         return _serviceRepository.GetTotalCount();
@@ -75,6 +78,7 @@ public class ServiceController : Controller
     [HttpGet]
     [LogAction]
     [CountView]
+    [EnableRateLimiting("client")]
     public async Task<ActionResult<Service>> GetById(int serviceId)
     {
         var target = _serviceRepository.GetById(serviceId);
