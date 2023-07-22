@@ -6,6 +6,7 @@ using JustEmpire.Services;
 using JustEmpire.Services.Classes;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using Serilog;
 
 namespace JustEmpire.Controllers;
@@ -48,6 +49,7 @@ public class ArticleController : Controller
     /// <returns></returns>
     [HttpGet]
     [LogAction]
+    [EnableRateLimiting("client")]
     public async Task<ActionResult<List<Article>>> GetPage(Language language, int pageIndex, int itemsOnPage)
     {
         return _articleRepository.GetPage(language, pageIndex, itemsOnPage);

@@ -1,11 +1,13 @@
 using System.Text;
 using System.Text.Json.Serialization;
+using System.Threading.RateLimiting;
 using JustEmpire.DbContexts;
 using JustEmpire.Models.Classes;
 using JustEmpire.Models.Enums;
 using JustEmpire.Services;
 using JustEmpire.Services.Classes;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using Serilog.Events;
@@ -77,11 +79,23 @@ builder.Services.AddCors(options => options.AddPolicy(name: "NgOrigins",
         policy.WithOrigins("http://localhost:5228").AllowAnyMethod().AllowAnyHeader();
     }));
 
+builder.Services.AddRateLimiter(options =>
+{
+    options.AddFixedWindowLimiter("client", options =>
+    {
+        options.Window = TimeSpan.FromSeconds(20);
+        options.PermitLimit = 20;
+        options.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
+    });
+});
+
 var app = builder.Build();
 
 app.UseCors();
 
 app.UseStaticFiles();
+
+app.UseRateLimiter();
 
 app.UseAuthentication();
 app.UseAuthorization();
