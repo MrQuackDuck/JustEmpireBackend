@@ -1,20 +1,15 @@
-﻿FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
-WORKDIR /app
-EXPOSE 80
-EXPOSE 443
-
-FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
-WORKDIR /src
-COPY ["JustEmpire/JustEmpire.csproj", "JustEmpire/"]
-RUN dotnet restore "JustEmpire/JustEmpire.csproj"
+﻿# Build Stage
+FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
+WORKDIR /source
 COPY . .
-WORKDIR "/src/JustEmpire"
-RUN dotnet build "JustEmpire.csproj" -c Release -o /app/build
+RUN dotnet restore "./JustEmpire/JustEmpire.csproj" --disable-parallel
+RUN dotnet publish "./JustEmpire/JustEmpire.csproj" -c release -o /app --no-restore
 
-FROM build AS publish
-RUN dotnet publish "JustEmpire.csproj" -c Release -o /app/publish
-
-FROM base AS final
+# Serve Stage
+FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
 WORKDIR /app
-COPY --from=publish /app/publish .
+COPY --from=build /app ./
+
+EXPOSE 5000
+
 ENTRYPOINT ["dotnet", "JustEmpire.dll"]
