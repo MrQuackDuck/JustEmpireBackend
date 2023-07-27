@@ -21,12 +21,16 @@ public class SearchController : Controller
     [HttpGet]
     [LogAction]
     [EnableRateLimiting("client")]
-    public List<IPostable> Find(string searchString)
+    public List<dynamic> Find(string searchString)
     {
-        var result = new List<IPostable>();
+        var result = new List<dynamic>();
         
-        result.AddRange(_articleRepository.GetAll().Where(a => a.Title.ToLower().StartsWith(searchString.ToLower()) && a.Status == Status.POSTED));
-        result.AddRange(_serviceRepository.GetAll().Where(s => s.Title.ToLower().StartsWith(searchString.ToLower()) && s.Status == Status.POSTED));
+        result.AddRange(_articleRepository.GetAll().Where(a => a.Title.ToLower().Contains(searchString.ToLower()) 
+                        || a.Text.ToLower().Contains(searchString.ToLower())
+                        && a.Status == Status.POSTED));
+        result.AddRange(_serviceRepository.GetAll().Where(s => s.Title.ToLower().Contains(searchString.ToLower())
+                        || s.Text.ToLower().Contains(searchString.ToLower())
+                        && s.Status == Status.POSTED));
 
         return result;
     }

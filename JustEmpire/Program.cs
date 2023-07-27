@@ -7,6 +7,7 @@ using JustEmpire.Models.Enums;
 using JustEmpire.Services;
 using JustEmpire.Services.Classes;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
@@ -20,9 +21,9 @@ builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(builder =>
     {
-        builder.WithOrigins("http://localhost:4200") // Replace with your Angular app's URL
+        builder.AllowAnyMethod()
             .AllowAnyHeader()
-            .AllowAnyMethod()
+            .SetIsOriginAllowed(origin => true)
             .AllowCredentials();
     });
 });
@@ -72,12 +73,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             }
         };
     });
-
-builder.Services.AddCors(options => options.AddPolicy(name: "NgOrigins",
-    policy =>
-    {
-        policy.WithOrigins("http://localhost:5228").AllowAnyMethod().AllowAnyHeader();
-    }));
 
 builder.Services.AddRateLimiter(options =>
 {
