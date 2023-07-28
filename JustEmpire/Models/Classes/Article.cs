@@ -15,6 +15,7 @@ public class Article : IArticle, IQueueable
     public Language Language { get; set; }
     public PostableType Type { get; set; }
     public string Text { get; set; }
+    public string? Tags { get; set; }
     public Status Status { get; set; }
     public DateTime LastChangeDate { get; set; }
     public DateTime PublishDate { get; set; }

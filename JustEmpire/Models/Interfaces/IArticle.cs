@@ -6,5 +6,7 @@ public interface IArticle : IPostable
 {
     string Text { get; set; }
     public string TitleImage { get; set; }
+    
+    public string Tags { get; set; }
     public Language Language { get; set; }
 }

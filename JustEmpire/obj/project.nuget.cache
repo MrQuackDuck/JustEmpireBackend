@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "6ZGibkrCmF64rHPmfKtR9pqAUE+YgdfbNXYT/nhXZtBarfS7pPdY2DcS+294nXBqbFb27+7ZGCk1i+mL+zIYzg==",
+  "dgSpecHash": "4yGITL7XJcRLBmreZlTLKeEMOZ1Irsp33UIHdFy/DvhEaGr5wg6WmrT0TSNfAlRw+lD7/Gb8AG3KwWp5AoSVYw==",
   "success": true,
   "projectFilePath": "C:\\Users\\mrqua\\repos\\source\\JustEmpire\\JustEmpire\\JustEmpire.csproj",
   "expectedPackageFiles": [
@@ -43,7 +43,10 @@
     "C:\\Users\\mrqua\\.nuget\\packages\\system.memory\\4.5.3\\system.memory.4.5.3.nupkg.sha512",
     "C:\\Users\\mrqua\\.nuget\\packages\\system.security.cryptography.cng\\4.5.0\\system.security.cryptography.cng.4.5.0.nupkg.sha512",
     "C:\\Users\\mrqua\\.nuget\\packages\\system.text.encodings.web\\7.0.0\\system.text.encodings.web.7.0.0.nupkg.sha512",
-    "C:\\Users\\mrqua\\.nuget\\packages\\system.text.json\\7.0.0\\system.text.json.7.0.0.nupkg.sha512"
+    "C:\\Users\\mrqua\\.nuget\\packages\\system.text.json\\7.0.0\\system.text.json.7.0.0.nupkg.sha512",
+    "C:\\Users\\mrqua\\.nuget\\packages\\microsoft.netcore.app.runtime.linux-x64\\7.0.5\\microsoft.netcore.app.runtime.linux-x64.7.0.5.nupkg.sha512",
+    "C:\\Users\\mrqua\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.linux-x64\\7.0.5\\microsoft.aspnetcore.app.runtime.linux-x64.7.0.5.nupkg.sha512",
+    "C:\\Users\\mrqua\\.nuget\\packages\\microsoft.netcore.app.host.linux-x64\\7.0.5\\microsoft.netcore.app.host.linux-x64.7.0.5.nupkg.sha512"
   ],
   "logs": []
 }

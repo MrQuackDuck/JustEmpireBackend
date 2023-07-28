@@ -133,6 +133,7 @@ public class ArticleController : Controller
             Status = Status.POSTED,
             Type = PostableType.ARTICLE,
             TitleImage = articleModel.TitleImage,
+            Tags = articleModel.Tags,
             PublishDate = DateTime.Now,
             LastChangeDate = DateTime.Now,
             Language = articleModel.Language
@@ -167,6 +168,7 @@ public class ArticleController : Controller
         originalArticle.Title = articleModel.Title;
         originalArticle.TitleImage = articleModel.TitleImage;
         originalArticle.Text = articleModel.Text;
+        originalArticle.Tags = articleModel.Tags;
         originalArticle.Language = articleModel.Language;
 
         if ((isOwnArticle && currentUserRank.ApprovementToEditPostableOwn) ||
@@ -279,6 +281,7 @@ public class ArticleController : Controller
         originalArticle.Title = targetArticle.Title;
         originalArticle.Text = targetArticle.Text;
         originalArticle.TitleImage = targetArticle.TitleImage;
+        originalArticle.Tags = targetArticle.Tags;
         originalArticle.Type = PostableType.ARTICLE;
         originalArticle.LastChangeDate = DateTime.Now;
 

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "AEucN+Qu7efd4qU0dqFRo5w1JWP5IAgH0ZOG7T6wF7w=",
+  "Hash": "4iEN6i0O7DORoexyrN9B0C2xg/P/zzK4tOCauG6CH5M=",
   "Source": "JustEmpire",
   "BasePath": "_content/JustEmpire",
   "Mode": "Default",
@@ -1324,6 +1324,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\uploads\\8cbc80b7-cafd-4b92-ab1c-7573e262371d.png"
+    },
+    {
+      "Identity": "C:\\Users\\mrqua\\repos\\source\\JustEmpire\\JustEmpire\\wwwroot\\uploads\\8da83c0d-f241-4432-a991-3cc6d83c0649.png",
+      "SourceId": "JustEmpire",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\mrqua\\repos\\source\\JustEmpire\\JustEmpire\\wwwroot\\",
+      "BasePath": "_content/JustEmpire",
+      "RelativePath": "uploads/8da83c0d-f241-4432-a991-3cc6d83c0649.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\8da83c0d-f241-4432-a991-3cc6d83c0649.png"
     },
     {
       "Identity": "C:\\Users\\mrqua\\repos\\source\\JustEmpire\\JustEmpire\\wwwroot\\uploads\\8f36074f-62c0-4e21-b437-7ed5efbb6463.png",
