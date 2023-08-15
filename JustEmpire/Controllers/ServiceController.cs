@@ -52,7 +52,8 @@ public class ServiceController : Controller
         if (targetCategories.Length == 0)
         {
             resultServices.AddRange(allServices.Where(service => service.Status == Status.POSTED
-                                                                 && service.Title.ToLower().Contains(searchString.ToLower())));
+                                                                 && (service.Title.ToLower().Contains(searchString.ToLower())
+                                                                 || service.Text.ToLower().Contains(searchString.ToLower()))));
             return resultServices;
         }
 
@@ -60,10 +61,11 @@ public class ServiceController : Controller
         {
             resultServices.AddRange(allServices.Where(service => service.CategoryId == category 
                                                                  && service.Status == Status.POSTED
-                                                                 && service.Title.ToLower().Contains(searchString.ToLower())));
+                                                                 && (service.Title.ToLower().Contains(searchString.ToLower())
+                                                                 || service.Text.ToLower().Contains(searchString.ToLower()))));
         }
 
-        return resultServices;
+        return resultServices.OrderByDescending(s => s.Id).ToList();
     }
     
     [HttpGet]

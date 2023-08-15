@@ -36,9 +36,27 @@
     "ApprovementToDeletePostableOthers": true
   },
   {
+    "Id": 4,
+    "Name": "Senate leader",
+    "Weight": 3,
+    "CreatePostable": true,
+    "EditPostableOwn": true,
+    "DeletePostableOwn": true,
+
+    "ApprovementToCreatePostable": false,
+    "ApprovementToEditPostableOwn": false,
+    "ApprovementToDeletePostableOwn": false,
+
+    "EditPostableOthers": true,
+    "DeletePostableOthers": true,
+
+    "ApprovementToEditPostableOthers": false,
+    "ApprovementToDeletePostableOthers": false
+  },
+  {
     "Id": 3,
     "Name": "Emperor",
-    "Weight": 3,
+    "Weight": 4,
     "CreatePostable": true,
     "EditPostableOwn": true,
     "DeletePostableOwn": true,

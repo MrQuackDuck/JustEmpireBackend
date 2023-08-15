@@ -97,7 +97,7 @@ public class ArticleRepository : IRepository<Article>
     {
         return _dbContext.Articles
             .Where(article => article.Language == language && article.Status == Status.POSTED)
-            .OrderByDescending(a => a.PublishDate)
+            .OrderByDescending(a => a.Id)
             .Skip((page - 1) * itemsOnPage)
             .Take(itemsOnPage)
             .ToList();
