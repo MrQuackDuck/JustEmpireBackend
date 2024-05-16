@@ -1,7 +1,8 @@
 ﻿using JustEmpire.DbContexts;
 using JustEmpire.Models.Classes;
+using JustEmpire.Services.Interfaces;
 
-namespace JustEmpire.Services;
+namespace JustEmpire.Services.Classes.Repositories;
 
 public class ServiceImageRepository : IRepository<ServiceImage>
 {
@@ -22,7 +23,7 @@ public class ServiceImageRepository : IRepository<ServiceImage>
         }
         catch
         {
-            return null;
+            return null!;
         }
     }
 
@@ -37,7 +38,7 @@ public class ServiceImageRepository : IRepository<ServiceImage>
         }
         catch
         {
-            return null;
+            return null!;
         }
     }
 
@@ -45,9 +46,9 @@ public class ServiceImageRepository : IRepository<ServiceImage>
     {
         try
         {
-            bool success = _dbContext.ServiceImages.Remove(article) is not null;
+            _dbContext.ServiceImages.Remove(article);
             _dbContext.SaveChanges();
-            return success;
+            return true;
         }
         catch
         {
@@ -59,10 +60,10 @@ public class ServiceImageRepository : IRepository<ServiceImage>
     {
         try
         {
-            var target = _dbContext.Users.FirstOrDefault(image => image.Id == id);
-            bool success = _dbContext.Users.Remove(target) is not null;
+            var target = _dbContext.Users.FirstOrDefault(image => image.Id == id)!;
+            _dbContext.Users.Remove(target);
             _dbContext.SaveChanges();
-            return success;
+            return true;
         }
         catch
         {
@@ -87,11 +88,11 @@ public class ServiceImageRepository : IRepository<ServiceImage>
 
     public ServiceImage GetById(int id)
     {
-        return _dbContext.ServiceImages.FirstOrDefault(image => image.Id == id);
+        return _dbContext.ServiceImages.FirstOrDefault(image => image.Id == id)!;
     }
     
     public ServiceImage GetByOriginalId(int id)
     {
-        return _dbContext.ServiceImages.FirstOrDefault(serviceImage => serviceImage.OriginalId == id) ?? null;
+        return _dbContext.ServiceImages.FirstOrDefault(serviceImage => serviceImage.OriginalId == id) ?? null!;
     }
 }

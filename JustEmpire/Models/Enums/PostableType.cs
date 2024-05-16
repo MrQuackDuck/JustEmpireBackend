@@ -3,8 +3,8 @@
 public enum PostableType
 {
     ARTICLE = 0,
-    SERVICE,
-    VERSION,
-    CATEGORY,
-    IMAGE
+    SERVICE = 1,
+    VERSION = 2,
+    CATEGORY = 3,
+    IMAGE = 4
 }

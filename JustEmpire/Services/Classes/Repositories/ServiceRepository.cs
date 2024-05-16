@@ -1,7 +1,8 @@
 ﻿using JustEmpire.DbContexts;
 using JustEmpire.Models.Classes;
+using JustEmpire.Services.Interfaces;
 
-namespace JustEmpire.Services;
+namespace JustEmpire.Services.Classes.Repositories;
 
 public class ServiceRepository : IRepository<Service>
 {
@@ -22,7 +23,7 @@ public class ServiceRepository : IRepository<Service>
         }
         catch
         {
-            return null;
+            return null!;
         }
     }
 
@@ -37,7 +38,7 @@ public class ServiceRepository : IRepository<Service>
         }
         catch
         {
-            return null;
+            return null!;
         }
     }
 
@@ -45,9 +46,9 @@ public class ServiceRepository : IRepository<Service>
     {
         try
         {
-            bool success = _dbContext.Services.Remove(service) is not null;
+            _dbContext.Services.Remove(service);
             _dbContext.SaveChanges();
-            return success;
+            return true;
         }
         catch
         {
@@ -59,10 +60,10 @@ public class ServiceRepository : IRepository<Service>
     {
         try
         {
-            var targetService = _dbContext.Services.FirstOrDefault(service => service.Id == id);
-            bool success = _dbContext.Services.Remove(targetService) is not null;
+            var targetService = _dbContext.Services.FirstOrDefault(service => service.Id == id)!;
+            _dbContext.Services.Remove(targetService);
             _dbContext.SaveChanges();
-            return success;
+            return true;
         }
         catch
         {
@@ -87,11 +88,11 @@ public class ServiceRepository : IRepository<Service>
 
     public Service GetById(int id)
     {
-        return _dbContext.Services.FirstOrDefault(service => service.Id == id);
+        return _dbContext.Services.FirstOrDefault(service => service.Id == id)!;
     }
     
     public Service GetByOriginalId(int id)
     {
-        return _dbContext.Services.FirstOrDefault(service => service.OriginalId == id) ?? null;
+        return _dbContext.Services.FirstOrDefault(service => service.OriginalId == id)!;
     }
 }

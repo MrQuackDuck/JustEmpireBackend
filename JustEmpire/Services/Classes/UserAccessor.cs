@@ -1,4 +1,5 @@
 ﻿using JustEmpire.Models.Classes;
+using JustEmpire.Services.Classes.Repositories;
 
 namespace JustEmpire.Services.Classes;
 

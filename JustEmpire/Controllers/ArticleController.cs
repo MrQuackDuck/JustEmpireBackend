@@ -4,10 +4,10 @@ using JustEmpire.Models.Classes.AcceptModels;
 using JustEmpire.Models.Enums;
 using JustEmpire.Services;
 using JustEmpire.Services.Classes;
+using JustEmpire.Services.Classes.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
-using Serilog;
 
 namespace JustEmpire.Controllers;
 

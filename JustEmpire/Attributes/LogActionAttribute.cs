@@ -11,10 +11,10 @@ public class LogActionAttribute : ActionFilterAttribute
     public override void OnActionExecuting(ActionExecutingContext context)
     {
         var request = context.HttpContext.Request;
-        string ipAddress = context.HttpContext.Connection.RemoteIpAddress.ToString();
+        string ipAddress = context.HttpContext.Connection.RemoteIpAddress!.ToString();
         string url = request.Path;
 
-        Log.Information($"Accessed {url} from {ipAddress}");
+        Log.Information("Accessed {Url} from {IpAddress}", url, ipAddress);
 
         base.OnActionExecuting(context);
     }

@@ -3,7 +3,7 @@ using System.Text;
 using JustEmpire.DbContexts;
 using JustEmpire.Models.Classes;
 
-namespace JustEmpire.Services;
+namespace JustEmpire.Services.Classes.Repositories;
 
 public class UserRepository
 {
@@ -18,9 +18,9 @@ public class UserRepository
     {
         try
         {
-            bool success = _dbContext.Users.Add(user) is not null;
+            _dbContext.Users.Add(user);
             _dbContext.SaveChanges();
-            return success;
+            return true;
         }
         catch
         {
@@ -32,9 +32,9 @@ public class UserRepository
     {
         try
         {
-            bool success = _dbContext.Users.Update(user) is not null;
+            _dbContext.Users.Update(user);
             _dbContext.SaveChanges();
-            return success;
+            return true;
         }
         catch
         {
@@ -46,9 +46,9 @@ public class UserRepository
     {
         try
         {
-            bool success = _dbContext.Users.Remove(user) is not null;
+            _dbContext.Users.Remove(user);
             _dbContext.SaveChanges();
-            return success;
+            return true;
         }
         catch
         {
@@ -61,9 +61,9 @@ public class UserRepository
         try
         {
             var target = _dbContext.Users.FirstOrDefault(user => user.Id == id);
-            bool success = _dbContext.Users.Remove(target) is not null;
+            _dbContext.Users.Remove(target!);
             _dbContext.SaveChanges();
-            return success;
+            return true;
         }
         catch
         {
@@ -83,14 +83,14 @@ public class UserRepository
         return _dbContext.Users.Count();
     }
 
-    public User GetById(int id)
+    public User? GetById(int id)
     {
-        return _dbContext.Users.FirstOrDefault(user => user.Id == id) ?? null;
+        return _dbContext.Users.FirstOrDefault(user => user.Id == id);
     }
 
-    public User GetByUsername(string username)
+    public User? GetByUsername(string username)
     {
-        return _dbContext.Users.FirstOrDefault(user => user.Username == username) ?? null;
+        return _dbContext.Users.FirstOrDefault(user => user.Username == username);
     }
     
     public bool ChangePassword(int userId, string oldPassword, string newPassword)
@@ -122,13 +122,14 @@ public class UserRepository
     
     public string Sha256(string inputString)
     {
-        var crypt = new SHA256Managed();
+        var crypt = SHA256.Create();
         string hash = String.Empty;
         byte[] crypto = crypt.ComputeHash(Encoding.ASCII.GetBytes(inputString));
         foreach (byte theByte in crypto)
         {
             hash += theByte.ToString("x2");
         }
+        
         return hash;
     }
 }

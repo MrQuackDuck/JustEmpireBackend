@@ -1,5 +1,6 @@
 ﻿using JustEmpire.Models.Classes;
 using JustEmpire.Services;
+using JustEmpire.Services.Classes.Repositories;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Serilog;
 

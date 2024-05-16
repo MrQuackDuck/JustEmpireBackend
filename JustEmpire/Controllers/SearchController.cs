@@ -1,7 +1,6 @@
 ﻿using JustEmpire.Attributes;
 using JustEmpire.Models.Enums;
-using JustEmpire.Models.Interfaces;
-using JustEmpire.Services;
+using JustEmpire.Services.Classes.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 

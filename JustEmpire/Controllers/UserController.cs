@@ -2,6 +2,7 @@
 using JustEmpire.Models.Classes;
 using JustEmpire.Models.Classes.AcceptModels.Admin;
 using JustEmpire.Services;
+using JustEmpire.Services.Classes.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

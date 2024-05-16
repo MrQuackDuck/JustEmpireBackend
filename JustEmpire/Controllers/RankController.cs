@@ -1,6 +1,7 @@
 using JustEmpire.Attributes;
 using JustEmpire.Models.Classes;
 using JustEmpire.Services;
+using JustEmpire.Services.Classes.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

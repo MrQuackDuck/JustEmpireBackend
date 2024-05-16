@@ -9,6 +9,7 @@ using Serilog;
 using Serilog.Events;
 using System.Text;
 using System.Threading.RateLimiting;
+using JustEmpire.Services.Classes.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -1,7 +1,8 @@
 ﻿using JustEmpire.DbContexts;
 using JustEmpire.Models.Classes;
+using JustEmpire.Services.Interfaces;
 
-namespace JustEmpire.Services;
+namespace JustEmpire.Services.Classes.Repositories;
 
 public class ServiceVersionRepository : IRepository<ServiceVersion>
 {
@@ -22,7 +23,7 @@ public class ServiceVersionRepository : IRepository<ServiceVersion>
         }
         catch
         {
-            return null;
+            return null!;
         }
     }
 
@@ -37,7 +38,7 @@ public class ServiceVersionRepository : IRepository<ServiceVersion>
         }
         catch
         {
-            return null;
+            return null!;
         }
     }
 
@@ -45,9 +46,9 @@ public class ServiceVersionRepository : IRepository<ServiceVersion>
     {
         try
         {
-            bool success = _dbContext.ServiceVersions.Remove(serviceVersion) is not null;
+            _dbContext.ServiceVersions.Remove(serviceVersion);
             _dbContext.SaveChanges();
-            return success;
+            return true;
         }
         catch
         {
@@ -59,10 +60,10 @@ public class ServiceVersionRepository : IRepository<ServiceVersion>
     {
         try
         {
-            var target = _dbContext.ServiceVersions.FirstOrDefault(version => version.Id == id);
-            bool success = _dbContext.ServiceVersions.Remove(target) is not null;
+            var target = _dbContext.ServiceVersions.FirstOrDefault(version => version.Id == id)!;
+            _dbContext.ServiceVersions.Remove(target);
             _dbContext.SaveChanges();
-            return success;
+            return true;
         }
         catch
         {
@@ -87,16 +88,16 @@ public class ServiceVersionRepository : IRepository<ServiceVersion>
 
     public ServiceVersion GetById(int id)
     {
-        return _dbContext.ServiceVersions.FirstOrDefault(version => version.Id == id);
+        return _dbContext.ServiceVersions.FirstOrDefault(version => version.Id == id)!;
     }
 
     public ServiceVersion GetLatestVersion(int serviceId)
     {
-        return _dbContext.ServiceVersions.FirstOrDefault(service => service.ServiceId == serviceId);
+        return _dbContext.ServiceVersions.FirstOrDefault(service => service.ServiceId == serviceId)!;
     }
     
     public ServiceVersion GetByOriginalId(int id)
     {
-        return _dbContext.ServiceVersions.FirstOrDefault(serviceVersion => serviceVersion.OriginalId == id) ?? null;
+        return _dbContext.ServiceVersions.FirstOrDefault(serviceVersion => serviceVersion.OriginalId == id)!;
     }
 }

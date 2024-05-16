@@ -1,7 +1,7 @@
 ﻿using JustEmpire.DbContexts;
 using JustEmpire.Models.Classes;
 
-namespace JustEmpire.Services;
+namespace JustEmpire.Services.Classes.Repositories;
 
 public class PageViewRepository
 {
@@ -16,9 +16,9 @@ public class PageViewRepository
     {
         try
         {
-            bool success = _dbContext.PageViews.Add(model) is not null;
+            _dbContext.PageViews.Add(model);
             _dbContext.SaveChanges();
-            return success;
+            return true;
         }
         catch
         {

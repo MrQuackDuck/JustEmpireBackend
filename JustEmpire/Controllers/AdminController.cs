@@ -1,6 +1,5 @@
 ﻿using JustEmpire.Attributes;
-using JustEmpire.Services;
-using Microsoft.AspNetCore.Authentication;
+using JustEmpire.Services.Classes.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -34,7 +33,7 @@ public class AdminController : ControllerBase
     [HttpPost]
     [Authorize]
     [LogAction]
-    public async Task<ActionResult<string>> UploadImage(IFormFile image)
+    public async Task<ActionResult<string>> UploadImage(IFormFile? image)
     {
         if (image == null || image.Length <= 0) return Forbid();
 

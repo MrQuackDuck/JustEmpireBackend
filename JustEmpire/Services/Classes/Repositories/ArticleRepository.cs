@@ -1,8 +1,9 @@
 ﻿using JustEmpire.DbContexts;
 using JustEmpire.Models.Classes;
 using JustEmpire.Models.Enums;
+using JustEmpire.Services.Interfaces;
 
-namespace JustEmpire.Services;
+namespace JustEmpire.Services.Classes.Repositories;
 
 public class ArticleRepository : IRepository<Article>
 {
@@ -23,7 +24,7 @@ public class ArticleRepository : IRepository<Article>
         }
         catch
         {
-            return null;
+            return null!;
         }
     }
 
@@ -38,7 +39,7 @@ public class ArticleRepository : IRepository<Article>
         }
         catch
         {
-            return null;
+            return null!;
         }
     }
 
@@ -46,9 +47,9 @@ public class ArticleRepository : IRepository<Article>
     {
         try
         {
-            bool success = _dbContext.Articles.Remove(article) is not null;
+            _dbContext.Articles.Remove(article);
             _dbContext.SaveChanges();
-            return success;
+            return true;
         }
         catch
         {
@@ -60,10 +61,10 @@ public class ArticleRepository : IRepository<Article>
     {
         try
         {
-            var target = _dbContext.Articles.FirstOrDefault(article => article.Id == id);
-            bool success = _dbContext.Articles.Remove(target) is not null;
+            var target = _dbContext.Articles.FirstOrDefault(article => article.Id == id)!;
+            _dbContext.Articles.Remove(target);
             _dbContext.SaveChanges();
-            return success;
+            return true;
         }
         catch
         {
@@ -121,11 +122,11 @@ public class ArticleRepository : IRepository<Article>
 
     public Article GetById(int id)
     {
-        return _dbContext.Articles.FirstOrDefault(article => article.Id == id);
+        return _dbContext.Articles.FirstOrDefault(article => article.Id == id)!;
     }
     
     public Article GetByOriginalId(int id)
     {
-        return _dbContext.Articles.FirstOrDefault(article => article.OriginalId == id) ?? null;
+        return _dbContext.Articles.FirstOrDefault(article => article.OriginalId == id) ?? null!;
     }
 }

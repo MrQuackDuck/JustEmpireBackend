@@ -1,7 +1,8 @@
 ﻿using JustEmpire.DbContexts;
 using JustEmpire.Models.Classes;
+using JustEmpire.Services.Interfaces;
 
-namespace JustEmpire.Services;
+namespace JustEmpire.Services.Classes.Repositories;
 
 public class ServiceCategoryRepository : IRepository<ServiceCategory>
 {
@@ -22,7 +23,7 @@ public class ServiceCategoryRepository : IRepository<ServiceCategory>
         }
         catch
         {
-            return null;
+            return null!;
         }
     }
 
@@ -37,7 +38,7 @@ public class ServiceCategoryRepository : IRepository<ServiceCategory>
         }
         catch
         {
-            return null;
+            return null!;
         }
     }
 
@@ -45,9 +46,9 @@ public class ServiceCategoryRepository : IRepository<ServiceCategory>
     {
         try
         {
-            bool success = _dbContext.ServiceCategories.Remove(category) is not null;
+            _dbContext.ServiceCategories.Remove(category);
             _dbContext.SaveChanges();
-            return success;
+            return true;
         }
         catch
         {
@@ -59,10 +60,10 @@ public class ServiceCategoryRepository : IRepository<ServiceCategory>
     {
         try
         {
-            var target = _dbContext.ServiceCategories.FirstOrDefault(category => category.Id == id);
-            bool success = _dbContext.ServiceCategories.Remove(target) is not null;
+            var target = _dbContext.ServiceCategories.FirstOrDefault(category => category.Id == id)!;
+            _dbContext.ServiceCategories.Remove(target);
             _dbContext.SaveChanges();
-            return success;
+            return true;
         }
         catch
         {
@@ -87,11 +88,11 @@ public class ServiceCategoryRepository : IRepository<ServiceCategory>
 
     public ServiceCategory GetById(int id)
     {
-        return _dbContext.ServiceCategories.FirstOrDefault(category => category.Id == id);
+        return _dbContext.ServiceCategories.FirstOrDefault(category => category.Id == id)!;
     }
 
     public ServiceCategory GetByOriginalId(int id)
     {
-        return _dbContext.ServiceCategories.FirstOrDefault(category => category.OriginalId == id) ?? null;
+        return _dbContext.ServiceCategories.FirstOrDefault(category => category.OriginalId == id) ?? null!;
     }
 }
