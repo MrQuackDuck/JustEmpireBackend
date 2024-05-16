@@ -15,7 +15,7 @@
 
 \- Autorization with <b>JWT</b> tokens. <br>
 \- <b>Full permission support</b> (customizable in <a href="https://github.com/MrQuackDuck/JustEmpireBackend/blob/master/JustEmpire/Ranks.json">JSON file</a>). <br>
-\- Approvement system (e.g: <i>if a user doesn't have enough permissions to do something, his <b>action needs to be confirmed</b></i>)<br>
+\- Approvement system (e.g: <i>if the user doesn't have enough permissions to do something, his <b>action needs to be confirmed</b></i>)<br>
 \- File-based logging with <a href="https://serilog.net/">Serilog</a>. <br>
 
 ## 📃 About community
