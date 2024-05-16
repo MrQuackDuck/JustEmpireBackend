@@ -1,5 +1,0 @@
-2023-05-25 23:56:45.861 +03:00 [INF] Accessed /API/Article/GetAll/ from ::1
-2023-05-25 23:56:48.638 +03:00 [INF] Accessed /API/Article/GetAll/ from ::1
-2023-05-25 23:56:49.296 +03:00 [INF] Accessed /API/Article/GetAll/ from ::1
-2023-05-25 23:56:54.239 +03:00 [INF] IP: ::1; Logged into plebs
-2023-05-25 23:57:58.285 +03:00 [INF] Accessed /API/Article/GetAll/ from ::1

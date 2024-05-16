@@ -1,2 +1,0 @@
-2023-05-24 20:26:16.886 +03:00 [INF] IP: ::1; URL: /API/Article/GetAll/
-2023-05-24 20:26:52.398 +03:00 [INF] IP: ::1; URL: /API/Article/GetAll/
