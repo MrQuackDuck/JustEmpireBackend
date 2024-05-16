@@ -5,9 +5,9 @@ namespace JustEmpire.Services;
 
 public class ServiceCategoryRepository : IRepository<ServiceCategory>
 {
-    private DatabaseContext _dbContext;
+    private JustEmpireDbContext _dbContext;
     
-    public ServiceCategoryRepository(DatabaseContext dbContext)
+    public ServiceCategoryRepository(JustEmpireDbContext dbContext)
     {
         _dbContext = dbContext;
     }

@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace JustEmpire.Migrations
 {
-    [DbContext(typeof(DatabaseContext))]
+    [DbContext(typeof(JustEmpireDbContext))]
     partial class DatabaseContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

@@ -1,17 +1,14 @@
-using System.Text;
-using System.Text.Json.Serialization;
-using System.Threading.RateLimiting;
+using System.Security.Claims;
 using JustEmpire.DbContexts;
-using JustEmpire.Models.Classes;
-using JustEmpire.Models.Enums;
 using JustEmpire.Services;
 using JustEmpire.Services.Classes;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using Serilog.Events;
+using System.Text;
+using System.Threading.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,8 +35,10 @@ Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
     .CreateLogger();
 
+var rankRepository = new RankRepository();
+
 builder.Services.AddMvc();
-builder.Services.AddDbContext<DatabaseContext>();
+builder.Services.AddDbContext<JustEmpireDbContext>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddScoped<ArticleRepository>();
 builder.Services.AddScoped<ServiceRepository>();
@@ -48,7 +47,7 @@ builder.Services.AddScoped<ServiceVersionRepository>();
 builder.Services.AddScoped<ServiceImageRepository>();
 builder.Services.AddScoped<PageViewRepository>();
 builder.Services.AddScoped<UserRepository>();
-builder.Services.AddScoped<RankRepository>();
+builder.Services.AddSingleton(rankRepository);
 builder.Services.AddScoped<UserAccessor>();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -57,11 +56,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         {
             ValidateIssuerSigningKey = true,
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8
-                .GetBytes(builder.Configuration.GetSection("AppSettings:Token").Value)),
+                .GetBytes(builder.Configuration.GetSection("AppSettings:JwtEncryptionKey").Value)),
             ValidateIssuer = false,
             ValidateAudience = false
         };
-        
+
         options.Events = new JwtBearerEvents
         {
             OnMessageReceived = context =>
@@ -74,6 +73,21 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
+builder.Services.AddAuthorization(options =>
+{
+    // Add policy for users who have permission to manage approvements
+    options.AddPolicy("CanManageApprovements", policyBuilder =>
+    {
+        policyBuilder.RequireAssertion(context =>
+        {
+            var rankId = context.User.Claims.FirstOrDefault(c => c.Type == "RankId").Value;
+            bool hasPermissionToManageApprovements = rankRepository.GetById(int.Parse(rankId)).ManageApprovements;
+            return hasPermissionToManageApprovements;
+        }); 
+    });
+});
+
+// Configuring rate limiting
 builder.Services.AddRateLimiter(options =>
 {
     options.AddFixedWindowLimiter("client", options =>
@@ -82,7 +96,7 @@ builder.Services.AddRateLimiter(options =>
         options.PermitLimit = 50;
         options.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
     });
-    
+
     options.AddFixedWindowLimiter("auth", options =>
     {
         options.Window = TimeSpan.FromSeconds(60);

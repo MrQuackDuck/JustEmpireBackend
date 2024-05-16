@@ -15,7 +15,9 @@
     "DeletePostableOthers": false,
 
     "ApprovementToEditPostableOthers": true,
-    "ApprovementToDeletePostableOthers": true
+    "ApprovementToDeletePostableOthers": true,
+    
+    "ManageApprovements": false
   },
   {
     "Id": 2,
@@ -33,7 +35,9 @@
     "DeletePostableOthers": true,
 
     "ApprovementToEditPostableOthers": true,
-    "ApprovementToDeletePostableOthers": true
+    "ApprovementToDeletePostableOthers": true,
+
+    "ManageApprovements": false
   },
   {
     "Id": 4,
@@ -51,7 +55,9 @@
     "DeletePostableOthers": true,
 
     "ApprovementToEditPostableOthers": false,
-    "ApprovementToDeletePostableOthers": false
+    "ApprovementToDeletePostableOthers": false,
+    
+    "ManageApprovements": true
   },
   {
     "Id": 3,
@@ -69,6 +75,8 @@
     "DeletePostableOthers": true,
 
     "ApprovementToEditPostableOthers": false,
-    "ApprovementToDeletePostableOthers": false
+    "ApprovementToDeletePostableOthers": false,
+
+    "ManageApprovements": true
   }
 ]

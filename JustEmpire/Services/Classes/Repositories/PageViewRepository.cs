@@ -5,9 +5,9 @@ namespace JustEmpire.Services;
 
 public class PageViewRepository
 {
-    private readonly DatabaseContext _dbContext;
+    private readonly JustEmpireDbContext _dbContext;
     
-    public PageViewRepository(DatabaseContext dbContext)
+    public PageViewRepository(JustEmpireDbContext dbContext)
     {
         _dbContext = dbContext;
     }

@@ -20,5 +20,5 @@ public class Rank
     public bool ApprovementToEditPostableOthers { get; set; }
     public bool ApprovementToDeletePostableOthers { get; set; }
     
-    
+    public bool ManageApprovements { get; set; }
 }

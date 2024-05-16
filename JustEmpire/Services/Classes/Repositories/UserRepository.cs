@@ -7,9 +7,9 @@ namespace JustEmpire.Services;
 
 public class UserRepository
 {
-    private DatabaseContext _dbContext;
+    private JustEmpireDbContext _dbContext;
     
-    public UserRepository(DatabaseContext dbContext)
+    public UserRepository(JustEmpireDbContext dbContext)
     {
         _dbContext = dbContext;
     }

@@ -12,7 +12,9 @@ using Microsoft.AspNetCore.RateLimiting;
 
 namespace JustEmpire.Controllers;
 
-public class ServiceCategoryController : Controller
+[ApiController]
+[Route("API/[controller]/[action]")]
+public class ServiceCategoryController : ControllerBase
 {
     private ServiceCategoryRepository _serviceCategoryRepository;
     private UserAccessor _userAccessor;
@@ -182,7 +184,7 @@ public class ServiceCategoryController : Controller
     }
     
     [HttpGet]
-    [Authorize(Roles = "Emperor")]
+    [Authorize(Policy = "CanManageApprovements")]
     [LogStaff]
     public async Task<ActionResult<List<ServiceCategory>>> GetQueued()
     {
@@ -193,7 +195,7 @@ public class ServiceCategoryController : Controller
     }
     
     [HttpGet]
-    [Authorize(Roles = "Emperor")]
+    [Authorize(Policy = "CanManageApprovements")]
     [LogStaff]
     public async Task<ActionResult<int>> GetQueuedCount()
     {
@@ -204,7 +206,7 @@ public class ServiceCategoryController : Controller
     }
     
     [HttpPut]
-    [Authorize(Roles = "Emperor")]
+    [Authorize(Policy = "CanManageApprovements")]
     [LogStaff]
     public async Task<ActionResult<bool>> ApproveCreate([FromBody]int categoryId)
     {
@@ -220,7 +222,7 @@ public class ServiceCategoryController : Controller
     }
     
     [HttpPut]
-    [Authorize(Roles = "Emperor")]
+    [Authorize(Policy = "CanManageApprovements")]
     [LogStaff]
     public async Task<ActionResult<bool>> ApproveEdit([FromBody]int categoryId)
     {
@@ -246,7 +248,7 @@ public class ServiceCategoryController : Controller
     }
     
     [HttpPut]
-    [Authorize(Roles = "Emperor")]
+    [Authorize(Policy = "CanManageApprovements")]
     [LogStaff]
     public async Task<ActionResult<bool>> ApproveDelete([FromBody]int categoryId)
     {
@@ -264,7 +266,7 @@ public class ServiceCategoryController : Controller
     }
 
     [HttpPut]
-    [Authorize(Roles = "Emperor")]
+    [Authorize(Policy = "CanManageApprovements")]
     [LogStaff]
     public async Task<ActionResult> Decline([FromBody] int categoryId)
     {

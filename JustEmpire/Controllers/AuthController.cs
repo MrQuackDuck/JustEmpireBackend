@@ -15,7 +15,9 @@ using Serilog;
 
 namespace JustEmpire.Controllers;
 
-public class AuthController : Controller
+[ApiController]
+[Route("API/[controller]/[action]")]
+public class AuthController : ControllerBase
 {
     private readonly IConfiguration _configuration;
     private readonly UserRepository _userRepository;
@@ -64,7 +66,7 @@ public class AuthController : Controller
         };
         
         var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
-            _configuration.GetSection("AppSettings:Token").Value));
+            _configuration.GetSection("AppSettings:JwtEncryptionKey").Value));
         
         var jwt = new JwtSecurityToken(
             claims: claims,

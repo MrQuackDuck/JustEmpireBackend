@@ -10,7 +10,9 @@ using Microsoft.AspNetCore.RateLimiting;
 
 namespace JustEmpire.Controllers;
 
-public class ServiceController : Controller
+[ApiController]
+[Route("API/[controller]/[action]")]
+public class ServiceController : ControllerBase
 {
     private ServiceRepository _serviceRepository;
     private ServiceImageRepository _serviceImageRepository;
@@ -230,7 +232,7 @@ public class ServiceController : Controller
     }
     
     [HttpGet]
-    [Authorize(Roles = "Emperor")]
+    [Authorize(Policy = "CanManageApprovements")]
     [LogStaff]
     public async Task<ActionResult<List<Service>>> GetQueued()
     {
@@ -241,7 +243,7 @@ public class ServiceController : Controller
     }
     
     [HttpGet]
-    [Authorize(Roles = "Emperor")]
+    [Authorize(Policy = "CanManageApprovements")]
     [LogStaff]
     public async Task<ActionResult<int>> GetQueuedCount()
     {
@@ -252,7 +254,7 @@ public class ServiceController : Controller
     }
     
     [HttpPut]
-    [Authorize(Roles = "Emperor")]
+    [Authorize(Policy = "CanManageApprovements")]
     [LogStaff]
     public async Task<ActionResult<bool>> ApproveCreate([FromBody]int serviceId)
     {
@@ -268,7 +270,7 @@ public class ServiceController : Controller
     }
     
     [HttpPut]
-    [Authorize(Roles = "Emperor")]
+    [Authorize(Policy = "CanManageApprovements")]
     [LogStaff]
     public async Task<ActionResult<bool>> ApproveEdit([FromBody]int serviceId)
     {
@@ -299,7 +301,7 @@ public class ServiceController : Controller
     }
     
     [HttpPut]
-    [Authorize(Roles = "Emperor")]
+    [Authorize(Policy = "CanManageApprovements")]
     [LogStaff]
     public async Task<ActionResult<bool>> ApproveDelete([FromBody]int serviceId)
     {
@@ -317,7 +319,7 @@ public class ServiceController : Controller
     }
     
     [HttpPut]
-    [Authorize(Roles = "Emperor")]
+    [Authorize(Policy = "CanManageApprovements")]
     [LogStaff]
     public async Task<ActionResult> Decline([FromBody] int serviceId)
     {

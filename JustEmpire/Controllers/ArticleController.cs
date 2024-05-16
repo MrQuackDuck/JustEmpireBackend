@@ -11,7 +11,9 @@ using Serilog;
 
 namespace JustEmpire.Controllers;
 
-public class ArticleController : Controller
+[ApiController]
+[Route("API/[controller]/[action]")]
+public class ArticleController : ControllerBase
 {
     private readonly ArticleRepository _articleRepository;
     private readonly UserAccessor _userAccessor;
@@ -228,7 +230,7 @@ public class ArticleController : Controller
     }
     
     [HttpGet]
-    [Authorize(Roles = "Emperor")]
+    [Authorize(Policy = "CanManageApprovements")]
     [LogStaff]
     public async Task<ActionResult<List<Article>>> GetQueued()
     {
@@ -239,7 +241,7 @@ public class ArticleController : Controller
     }
     
     [HttpGet]
-    [Authorize(Roles = "Emperor")]
+    [Authorize(Policy = "CanManageApprovements")]
     [LogStaff]
     public async Task<ActionResult<int>> GetQueuedCount()
     {
@@ -250,7 +252,7 @@ public class ArticleController : Controller
     }
 
     [HttpPut]
-    [Authorize(Roles = "Emperor")]
+    [Authorize(Policy = "CanManageApprovements")]
     [LogStaff]
     public async Task<ActionResult<bool>> ApproveCreate([FromBody]int articleId)
     {
@@ -266,7 +268,7 @@ public class ArticleController : Controller
     }
 
     [HttpPut]
-    [Authorize(Roles = "Emperor")]
+    [Authorize(Policy = "CanManageApprovements")]
     [LogStaff]
     public async Task<ActionResult<bool>> ApproveEdit([FromBody]int articleId)
     {
@@ -295,7 +297,7 @@ public class ArticleController : Controller
     }
 
     [HttpPut]
-    [Authorize(Roles = "Emperor")]
+    [Authorize(Policy = "CanManageApprovements")]
     [LogStaff]
     public async Task<ActionResult<bool>> ApproveDelete([FromBody]int articleId)
     {
@@ -313,7 +315,7 @@ public class ArticleController : Controller
     }
     
     [HttpPut]
-    [Authorize(Roles = "Emperor")]
+    [Authorize(Policy = "CanManageApprovements")]
     [LogStaff]
     public async Task<ActionResult> Decline([FromBody] int articleId)
     {

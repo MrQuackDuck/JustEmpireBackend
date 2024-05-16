@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace JustEmpire.Migrations
 {
-    [DbContext(typeof(DatabaseContext))]
+    [DbContext(typeof(JustEmpireDbContext))]
     [Migration("20230508190431_InitialCreate")]
     partial class InitialCreate
     {

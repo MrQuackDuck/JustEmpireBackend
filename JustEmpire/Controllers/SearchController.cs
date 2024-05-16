@@ -7,7 +7,9 @@ using Microsoft.AspNetCore.RateLimiting;
 
 namespace JustEmpire.Controllers;
 
-public class SearchController : Controller
+[ApiController]
+[Route("API/[controller]/[action]")]
+public class SearchController : ControllerBase
 {
     private ArticleRepository _articleRepository;
     private ServiceRepository _serviceRepository;

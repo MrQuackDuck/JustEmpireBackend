@@ -1,0 +1,9 @@
+﻿/JustEmpire/obj/
+/JustEmpire/bin/
+/JustEmpire/Logs/
+/JustEmpire/wwwroot/uploads
+/JustEmpire.sln.DotSettings.user
+/JustEmpire/data.db
+/.idea
+/.github
+/.vs

@@ -10,7 +10,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace JustEmpire.Controllers;
 
-public class ServiceVersionController : Controller
+[ApiController]
+[Route("API/[controller]/[action]")]
+public class ServiceVersionController : ControllerBase
 {
     private ServiceRepository _serviceRepository;
     private ServiceVersionRepository _serviceVersionRepository;
@@ -215,7 +217,7 @@ public class ServiceVersionController : Controller
     }
     
     [HttpGet]
-    [Authorize(Roles = "Emperor")]
+    [Authorize(Policy = "CanManageApprovements")]
     [LogStaff]
     public async Task<ActionResult<List<ServiceVersion>>> GetQueued()
     {
@@ -226,7 +228,7 @@ public class ServiceVersionController : Controller
     }
     
     [HttpGet]
-    [Authorize(Roles = "Emperor")]
+    [Authorize(Policy = "CanManageApprovements")]
     [LogStaff]
     public async Task<ActionResult<int>> GetQueuedCount()
     {
@@ -237,7 +239,7 @@ public class ServiceVersionController : Controller
     }
     
     [HttpPut]
-    [Authorize(Roles = "Emperor")]
+    [Authorize(Policy = "CanManageApprovements")]
     [LogStaff]
     public async Task<ActionResult<bool>> ApproveCreate([FromBody]int versionId)
     {
@@ -253,7 +255,7 @@ public class ServiceVersionController : Controller
     }
     
     [HttpPut]
-    [Authorize(Roles = "Emperor")]
+    [Authorize(Policy = "CanManageApprovements")]
     [LogStaff]
     public async Task<ActionResult<bool>> ApproveEdit([FromBody]int versionId)
     {
@@ -280,7 +282,7 @@ public class ServiceVersionController : Controller
     }
     
     [HttpPut]
-    [Authorize(Roles = "Emperor")]
+    [Authorize(Policy = "CanManageApprovements")]
     [LogStaff]
     public async Task<ActionResult<bool>> ApproveDelete([FromBody]int versionId)
     {
@@ -299,7 +301,7 @@ public class ServiceVersionController : Controller
     
     
     [HttpPut]
-    [Authorize(Roles = "Emperor")]
+    [Authorize(Policy = "CanManageApprovements")]
     [LogStaff]
     public async Task<ActionResult> Decline([FromBody] int versionId)
     {

@@ -3,6 +3,9 @@ using Serilog;
 
 namespace JustEmpire.Attributes;
 
+/// <summary>
+/// Log action for unauthorized user
+/// </summary>
 public class LogActionAttribute : ActionFilterAttribute
 {
     public override void OnActionExecuting(ActionExecutingContext context)

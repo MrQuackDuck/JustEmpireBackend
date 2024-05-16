@@ -6,7 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace JustEmpire.Controllers;
 
-public class AdminController : Controller
+[ApiController]
+[Route("API/[controller]/[action]")]
+public class AdminController : ControllerBase
 {
     private PageViewRepository _pageViewRepository;
     private IWebHostEnvironment _webHostEnvironment;

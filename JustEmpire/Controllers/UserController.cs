@@ -7,15 +7,15 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace JustEmpire.Controllers;
 
-public class UserController : Controller
+[ApiController]
+[Route("API/[controller]/[action]")]
+public class UserController : ControllerBase
 {
     private UserRepository _userRepository;
-    private RankRepository _rankRepository;
     
-    public UserController(UserRepository userRepository, RankRepository rankRepository)
+    public UserController(UserRepository userRepository)
     {
         _userRepository = userRepository;
-        _rankRepository = rankRepository;
     }
 
     [HttpGet]
@@ -27,7 +27,7 @@ public class UserController : Controller
     }
     
     [HttpGet]
-    [Authorize(Roles = "Emperor")]
+    [Authorize(Policy = "CanManageApprovements")]
     [LogStaff]
     public async Task<ActionResult<int>> GetCount()
     {
@@ -35,7 +35,7 @@ public class UserController : Controller
     }
 
     [HttpGet]
-    [Authorize(Roles = "Emperor")]
+    [Authorize(Policy = "CanManageApprovements")]
     [LogStaff]
     public async Task<List<User>> GetAllStaff()
     {
@@ -49,7 +49,7 @@ public class UserController : Controller
     }
 
     [HttpPost]
-    [Authorize(Roles = "Emperor")]
+    [Authorize(Policy = "CanManageApprovements")]
     [LogStaff]
     public async Task<ActionResult<bool>> Create([FromBody]CreateUserModel userModel)
     {
@@ -79,7 +79,7 @@ public class UserController : Controller
     }
 
     [HttpPut]
-    [Authorize(Roles = "Emperor")]
+    [Authorize(Policy = "CanManageApprovements")]
     [LogStaff]
     public async Task<ActionResult<bool>> Edit([FromBody]EditUserModel userModel)
     {
@@ -93,7 +93,7 @@ public class UserController : Controller
     }
 
     [HttpGet]
-    [Authorize(Roles = "Emperor")]
+    [Authorize(Policy = "CanManageApprovements")]
     [LogStaff]
     public async Task<ActionResult<bool>> Delete(int userId)
     {

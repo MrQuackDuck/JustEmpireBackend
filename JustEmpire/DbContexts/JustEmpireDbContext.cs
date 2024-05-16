@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace JustEmpire.DbContexts;
 
-public class DatabaseContext : DbContext
+public class JustEmpireDbContext : DbContext
 {
     public DbSet<Article> Articles { get; set; }
     public DbSet<Service> Services { get; set; }
@@ -17,7 +17,7 @@ public class DatabaseContext : DbContext
 
     public string DbPath { get; }
 
-    public DatabaseContext() => DbPath = "data.db";
+    public JustEmpireDbContext() => DbPath = "data.db";
 
     protected override void OnConfiguring(DbContextOptionsBuilder options)
         => options.UseSqlite($"Data Source={DbPath}");

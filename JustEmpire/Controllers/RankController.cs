@@ -6,7 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace JustEmpire.Controllers;
 
-public class RankController : Controller
+[ApiController]
+[Route("API/[controller]/[action]")]
+public class RankController : ControllerBase
 {
     private RankRepository _rankRepository;
     
@@ -16,7 +18,7 @@ public class RankController : Controller
     }
     
     [HttpGet]
-    [Authorize(Roles = "Emperor")]
+    [Authorize(Policy = "CanManageApprovements")]
     [LogStaff]
     public async Task<ActionResult<Rank>> GetById(int id)
     {
@@ -25,7 +27,7 @@ public class RankController : Controller
     }
     
     [HttpGet]
-    [Authorize(Roles = "Emperor")]
+    [Authorize(Policy = "CanManageApprovements")]
     [LogStaff]
     public async Task<List<Rank>> GetAllStaff()
     {
