@@ -1,4 +1,4 @@
-<h1><div>JustEmpire (BackEnd)</div></h1>
+<h1><img src="https://github.com/MrQuackDuck/JustEmpireBackend/assets/61251075/e263f541-9e62-4852-9cd4-bb990b09e9bf" height=80 /><div>JustEmpire (BackEnd)</div></h1>
 <p>
   <a href="https://dotnet.microsoft.com/en-us/apps/aspnet"><img src="https://img.shields.io/badge/ASP.NET-gray?color=2A4FBD&logo=dotnet" /></a>
   <a href="https://www.sqlite.org/"><img src="https://img.shields.io/badge/SQLite-gray?color=488BB5&logo=sqlite" /></a>
