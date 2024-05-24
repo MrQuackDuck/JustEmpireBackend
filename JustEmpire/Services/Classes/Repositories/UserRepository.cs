@@ -2,6 +2,7 @@
 using System.Text;
 using JustEmpire.DbContexts;
 using JustEmpire.Models.Classes;
+using JustEmpire.Utils;
 
 namespace JustEmpire.Services.Classes.Repositories;
 
@@ -100,7 +101,7 @@ public class UserRepository
 
         if (!IsPasswordCorrect(user.Username, oldPassword)) return false;
 
-        user.PasswordHash = Sha256(newPassword);
+        user.PasswordHash = Hasher.ToSha256(newPassword);
         _dbContext.SaveChanges();
         return true;
     }
@@ -109,7 +110,7 @@ public class UserRepository
     {
         var user = GetByUsername(username);
         if (user == null) return false;
-        if (user.PasswordHash == Sha256(password)) return true;
+        if (user.PasswordHash == Hasher.ToSha256(password)) return true;
 
         return false;
     }
@@ -118,18 +119,5 @@ public class UserRepository
     {
         var target = _dbContext.Users.FirstOrDefault(user => user.Username == username);
         return !(target == null);
-    }
-    
-    public string Sha256(string inputString)
-    {
-        var crypt = SHA256.Create();
-        string hash = String.Empty;
-        byte[] crypto = crypt.ComputeHash(Encoding.ASCII.GetBytes(inputString));
-        foreach (byte theByte in crypto)
-        {
-            hash += theByte.ToString("x2");
-        }
-        
-        return hash;
     }
 }

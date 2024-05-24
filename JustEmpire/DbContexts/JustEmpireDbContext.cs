@@ -1,5 +1,6 @@
 ﻿using System.Text.Json;
 using JustEmpire.Models.Classes;
+using JustEmpire.Utils;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
@@ -19,6 +20,5 @@ public class JustEmpireDbContext : DbContext
 
     public JustEmpireDbContext() => DbPath = "data.db";
 
-    protected override void OnConfiguring(DbContextOptionsBuilder options)
-        => options.UseSqlite($"Data Source={DbPath}");
+    protected override void OnConfiguring(DbContextOptionsBuilder options) => options.UseSqlite($"Data Source={DbPath}");
 }

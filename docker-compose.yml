@@ -1,0 +1,12 @@
+version: '1'
+
+services:
+  web:
+    container_name: justempire.backend
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 4080:4080
+    volumes:
+      - ./db:/root/db/

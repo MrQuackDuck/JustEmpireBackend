@@ -3,6 +3,7 @@ using JustEmpire.Models.Classes;
 using JustEmpire.Models.Classes.AcceptModels.Admin;
 using JustEmpire.Services;
 using JustEmpire.Services.Classes.Repositories;
+using JustEmpire.Utils;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -64,7 +65,7 @@ public class UserController : ControllerBase
             User user = new User()
             {
                 Username = userModel.Username,
-                PasswordHash = _userRepository.Sha256(userModel.Password),
+                PasswordHash = Hasher.ToSha256(userModel.Password),
                 RankId = userModel.RankId
             };
 

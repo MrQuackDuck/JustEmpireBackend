@@ -9,7 +9,10 @@ using Serilog;
 using Serilog.Events;
 using System.Text;
 using System.Threading.RateLimiting;
+using JustEmpire.Models.Classes;
 using JustEmpire.Services.Classes.Repositories;
+using JustEmpire.Utils;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -118,5 +121,25 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute("default", "API/{controller}/{action}/{serviceId?}");
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    var dbContext = services.GetRequiredService<JustEmpireDbContext>();
+    if (dbContext.Database.GetPendingMigrations().Any())
+    {
+        dbContext.Database.Migrate();
+        // Add superuser by default
+        dbContext.Users.Add(new User()
+        {
+            Username = "admin",
+            PasswordHash = Hasher.ToSha256("admin"),
+            RankId = 3
+        });
+            
+        dbContext.SaveChanges();
+    }
+}
 
 app.Run();
