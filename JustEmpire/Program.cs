@@ -130,6 +130,7 @@ using (var scope = app.Services.CreateScope())
     if (dbContext.Database.GetPendingMigrations().Any())
     {
         dbContext.Database.Migrate();
+        
         // Add superuser by default
         dbContext.Users.Add(new User()
         {

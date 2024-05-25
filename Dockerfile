@@ -10,4 +10,7 @@ FROM mcr.microsoft.com/dotnet/aspnet:7.0 as final
 WORKDIR /app
 COPY --from=build /publish .
 
+RUN dotnet tool install --global dotnet-ef
+RUN dotnet ef database update
+
 ENTRYPOINT [ "dotnet", "JustEmpire.dll", "--urls", "http://+:4080" ]
