@@ -9,4 +9,4 @@ services:
     ports:
       - 4080:4080
     volumes:
-      - ./db:/root/db/
+      - ./uploads:/src/wwwroot/uploads

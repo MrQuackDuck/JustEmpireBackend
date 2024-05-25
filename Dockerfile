@@ -7,13 +7,11 @@ COPY . .
 RUN dotnet publish "JustEmpire/JustEmpire.csproj" -c Release -o /publish
 
 FROM mcr.microsoft.com/dotnet/aspnet:7.0 as final
-WORKDIR /app
+WORKDIR /src
 COPY --from=build /publish .
 
-ENV PATH="${PATH}:/root/.dotnet/tools"
-
 CMD dotnet tool install --global dotnet-ef --version 6.0.25
-CMD dotnet ef migrations add InitialCreate --project testapi.csproj -v
+ENV PATH="${PATH}:/root/.dotnet/tools"
 CMD dotnet ef database update
 
 ENTRYPOINT [ "dotnet", "JustEmpire.dll", "--urls", "http://+:4080" ]
