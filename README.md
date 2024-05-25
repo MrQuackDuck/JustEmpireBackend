@@ -23,7 +23,9 @@
 1. Install <a href="https://docs.docker.com/get-docker/">Docker</a>
 2. Clone this repo <br>
    **>** `git clone https://github.com/MrQuackDuck/JustEmpireBackend.git`
-3. Run the container <br>
+3. Jump into the folder <br>
+   **>** `cd '.\JustEmpire Backend\'`
+4. Run the container <br>
    **>** `docker compose up`
 
 ## 🔐 Admin panel credentials
