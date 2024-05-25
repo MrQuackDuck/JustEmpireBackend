@@ -39,14 +39,16 @@ public class AdminController : ControllerBase
 
         string wwwRootPath = _webHostEnvironment.WebRootPath;
         string extension = Path.GetExtension(image.FileName);
-        string filename = Guid.NewGuid().ToString() + extension; // Generating filename
-        var path = Path.Combine(wwwRootPath + "/uploads/", filename);
+        
+        // Generating the filename
+        string filename = Guid.NewGuid().ToString() + extension;
+        var path = Path.Combine(wwwRootPath + "uploads", filename);
         
         using (var fileStream = new FileStream(path, FileMode.Create))
         {
             await image.CopyToAsync(fileStream);
         }
 
-        return Ok(new { filename} );
+        return Ok(new { filename } );
     }
 }
