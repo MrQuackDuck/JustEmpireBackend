@@ -2,6 +2,7 @@
 <p>
   <a href="https://dotnet.microsoft.com/en-us/apps/aspnet"><img src="https://img.shields.io/badge/ASP.NET-gray?color=2A4FBD&logo=dotnet" /></a>
   <a href="https://www.sqlite.org/"><img src="https://img.shields.io/badge/SQLite-gray?color=488BB5&logo=sqlite" /></a>
+  <a href="https://docs.docker.com/get-docker/"><img src="https://img.shields.io/badge/Docker-gray?color=1C90ED&logo=docker&logoColor=FFFFFF" /></a>
   <a href="https://learn.microsoft.com/en-us/ef/core/"><img src="https://img.shields.io/badge/EF_Core-gray?color=F07427&logo=dotnet" /></a>
   <a href="https://serilog.net/"><img src="https://img.shields.io/badge/Serilog-gray?color=f5230c" /></a>
 </p>
@@ -17,6 +18,19 @@
 \- <b>Full permission support</b> (customizable in <a href="https://github.com/MrQuackDuck/JustEmpireBackend/blob/master/JustEmpire/Ranks.json">JSON file</a>). <br>
 \- Approvement system (e.g: <i>if the user doesn't have enough permissions to do something, his <b>action needs to be confirmed</b></i>)<br>
 \- File-based logging with <a href="https://serilog.net/">Serilog</a>. <br>
+
+## 🐳 Deploy (in a container)
+1. Install <a href="https://docs.docker.com/get-docker/">Docker</a>
+2. Clone this repo <br>
+   **>** `git clone https://github.com/MrQuackDuck/JustEmpireBackend.git`
+3. Jump into the folder <br>
+   **>** `cd '.\JustEmpire Backend\'`
+4. Run the container <br>
+   **>** `docker compose up`
+
+## 🔐 Admin panel credentials
+<b>Login</b>: admin<br>
+<b>Password</b>: admin
 
 ## 📃 About community
 
