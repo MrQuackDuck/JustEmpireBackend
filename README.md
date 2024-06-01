@@ -20,6 +20,10 @@
 \- File-based logging with <a href="https://serilog.net/">Serilog</a>. <br>
 
 ## 🐳 Deployment
+> [!IMPORTANT]
+> When you've cloned the repository, make sure to generate a secure key and insert
+> <br>it into `JwtEncryptionKey` field in `appsettings.json`
+
 1. Install <a href="https://docs.docker.com/get-docker/">Docker</a>
 2. Clone this repo <br>
    **>** `git clone https://github.com/MrQuackDuck/JustEmpireBackend.git`
