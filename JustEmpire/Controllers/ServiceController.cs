@@ -32,8 +32,8 @@ public class ServiceController : ControllerBase
     [LogAction]
     [CountView]
     [EnableRateLimiting("client")]
-    public List<Service> GetAll(Language language, string[] categories = null, string searchString = "")
-     {
+    public List<Service> GetAll(Language language, [FromQuery]string[] categories = null, string searchString = "")
+    {
         if (categories is null) categories = new []{ "" };
         
         List<Service> allServices = _serviceRepository.GetAll().Where(service => 
@@ -42,17 +42,21 @@ public class ServiceController : ControllerBase
             .OrderByDescending(service => service.PublishDate)
             .ToList();
 
-        int[] targetCategories = new int[0];
+        int[] categoryIdFilter = null;
+        bool ignoreIdFilter = false;
         try
         {
-            // Trying to parse categoriesString to int
-            targetCategories = Array.ConvertAll(categories, s => int.Parse(s));
-        } 
-        catch { }
+            // Trying to parse categories ids from strings to ints
+            categoryIdFilter = Array.ConvertAll(categories, s => int.Parse(s));
+        }
+        catch
+        {
+            ignoreIdFilter = true;
+        }
 
         List<Service> resultServices = new List<Service>();
-
-        if (targetCategories.Length == 0)
+        
+        if (ignoreIdFilter)
         {
             resultServices.AddRange(allServices.Where(service => service.Status == Status.POSTED
                                                                  && (service.Title.ToLower().Contains(searchString.ToLower())
@@ -60,7 +64,7 @@ public class ServiceController : ControllerBase
             return resultServices;
         }
 
-        foreach (var category in targetCategories)
+        foreach (var category in categoryIdFilter)
         {
             resultServices.AddRange(allServices.Where(service => service.CategoryId == category 
                                                                  && service.Status == Status.POSTED
