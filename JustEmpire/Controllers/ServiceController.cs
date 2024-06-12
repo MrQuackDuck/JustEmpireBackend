@@ -53,6 +53,8 @@ public class ServiceController : ControllerBase
         {
             ignoreIdFilter = true;
         }
+        
+        if (categoryIdFilter?.Length == 0) ignoreIdFilter = true;
 
         List<Service> resultServices = new List<Service>();
         
